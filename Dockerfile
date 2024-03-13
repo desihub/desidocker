@@ -51,8 +51,8 @@ RUN "${SHELL}" "./aws/install" \
     -b "${AWS_DIR}/bin"
 
 # Install mountpoint
-RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/mount-s3.deb"
-RUN apt-get install ./mount-s3.deb
+RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/mount-s3.deb" -O "./mount-s3.deb"
+RUN apt-get install --yes --no-install-recommends "./mount-s3.deb"
 
 # --- Install Jupyter ---
 
