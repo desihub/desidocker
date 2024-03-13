@@ -44,14 +44,14 @@ USER root
 WORKDIR "${TEMP}"
 
 # Install aws-cli
-RUN wget "https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}.zip" -O "./awscli.zip"
+RUN wget "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -i).zip" -O "./awscli.zip"
 RUN unzip "./awscli.zip"
 RUN "${SHELL}" "./aws/install" \
     -i "${AWS_DIR}/aws-cli" \
     -b "${AWS_DIR}/bin"
 
 # Install mountpoint
-RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/${ARCH}/mount-s3.deb"
+RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/mount-s3.deb"
 RUN apt-get install ./mount-s3.deb
 
 # --- Install Jupyter ---
