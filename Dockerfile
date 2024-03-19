@@ -23,15 +23,6 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Directories
 ENV HOME=/home/$NB_UID
-ENV TEMP=/tmp
-ENV AWS_DIR=/opt/aws
-ENV PATH="$${AWS_DIR}/bin:${PATH}"
-
-USER root
-
-RUN apt-get update --yes \
-    && apt-get upgrade --yes \
-    && apt-get clean
 
 # Install AWS 
 # ===========
@@ -39,19 +30,35 @@ RUN apt-get update --yes \
 # e.g. x86_64, amd64, required for downloading the right executables
 
 USER root
-WORKDIR "${TEMP}"
+WORKDIR /tmp
+
+# Ensure all dependencies can be installed
+
+RUN apt-get update --yes \
+    && apt-get upgrade --yes \
+    && apt-get clean
 
 # Install aws-cli
 RUN wget "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -i).zip" -O ./awscli.zip \
     && unzip ./awscli.zip \
     && chmod +x ./aws/install \
     && ./aws/install \
-    -i "${AWS_DIR}/aws-cli" \
-    -b "${AWS_DIR}/bin"
+    -i "/usr/aws-cli" \
+    -b "/usr/bin"
 
 # Install mountpoint
 RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/mount-s3.deb" -O ./mount-s3.deb \
     && apt-get install --yes --no-install-recommends "./mount-s3.deb"
+
+# Supervisor
+RUN apt-get install --yes --no-install-recommends supervisor \
+    && mkdir -p /var/run/jupyter /var/run/aws /var/log/supervisor \
+    && fix-permissions /var
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ENTRYPOINT ["/usr/bin/supervisord"]
+
+COPY aws.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/aws.sh
 
 
 USER ${NB_UID}
