@@ -60,7 +60,10 @@ ENTRYPOINT ["/usr/bin/supervisord"]
 COPY aws.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/aws.sh
 
+# COPY desi.sh ./desi.sh
+# RUN chmod +x ./desi.sh && ./desi.sh
 
 USER ${NB_UID}
 
 WORKDIR "${HOME}"
+
