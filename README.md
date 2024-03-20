@@ -20,7 +20,7 @@
 ## Running the DESI- and AWS-equipped Jupyter container
 
 1. Install Docker
-2. Run this line to build a Docker image from this repository.
+2. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
 ```bash
 docker image build -t docker-aws-jupyter https://github.com/flyorboom/docker-aws-jupyter.git
 ```
