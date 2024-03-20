@@ -23,6 +23,11 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Directories
 ENV HOME=/home/$NB_UID
+ENV DESI_HUB=$HOME/desihub
+ENV DESI_ROOT=$HOME/desiroot
+ENV DESI_ROOT_CACHE=$HOME/.desiroot_cache
+ENV USR_BIN=/usr/bin
+ENV LOCAL_BIN=/usr/local/bin
 
 # Install AWS 
 # ===========
@@ -43,27 +48,34 @@ RUN wget "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -i).zip" -O ./aw
     && unzip ./awscli.zip \
     && chmod +x ./aws/install \
     && ./aws/install \
-    -i "/usr/aws-cli" \
-    -b "/usr/bin"
+    -i /usr/aws-cli \
+    -b $USR_BIN
 
 # Install mountpoint
 RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/mount-s3.deb" -O ./mount-s3.deb \
     && apt-get install --yes --no-install-recommends "./mount-s3.deb"
 
+# Build scripts are run during docker image build
+# Run scripts are run during docker run
+COPY aws_build.sh aws_run.sh \
+    desi_build.sh desi_run.sh \
+    $LOCAL_BIN
+RUN chmod +x $LOCAL_BIN/*.sh
+
+RUN $LOCAL_BIN/desi_build.sh
+RUN $LOCAL_BIN/aws_build.sh
+
 # Supervisor
 RUN apt-get install --yes --no-install-recommends supervisor \
+    && apt-get clean \
     && mkdir -p /var/run/jupyter /var/run/aws /var/log/supervisor \
     && fix-permissions /var
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ENTRYPOINT ["/usr/bin/supervisord"]
+COPY supervisord.conf /etc/supervisor/supervisord.conf
+ENTRYPOINT $USR_BIN/supervisord
 
-COPY aws.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/aws.sh
-
-# COPY desi.sh ./desi.sh
-# RUN chmod +x ./desi.sh && ./desi.sh
+RUN fix-permissions $HOME
 
 USER ${NB_UID}
 
-WORKDIR "${HOME}"
+WORKDIR $HOME
 
