@@ -61,15 +61,24 @@ RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/moun
 
 # Build scripts are run during docker image build
 # Run scripts are run during docker run
-COPY ./*.sh $LOCAL_BIN
-RUN chmod +x $LOCAL_BIN/*.sh
+COPY ./aws_build.sh ./desi_build.sh $LOCAL_BIN
+RUN chmod +x \
+    $LOCAL_BIN/aws_build.sh \
+    $LOCAL_BIN/desi_build.sh
 
 RUN $LOCAL_BIN/desi_build.sh
 RUN $LOCAL_BIN/aws_build.sh
-RUN mkdir -p $MOUNT \
-    && ln -s $MOUNT $HOME/synced
 
 ENTRYPOINT $LOCAL_BIN/main.sh
+
+COPY ./main.sh ./aws_run.sh ./desi_run.sh $LOCAL_BIN
+RUN chmod +x \
+    $LOCAL_BIN/main.sh \
+    $LOCAL_BIN/aws_run.sh \
+    $LOCAL_BIN/desi_run.sh
+
+RUN mkdir -p $MOUNT \
+    && ln -s $MOUNT $HOME/synced
 
 RUN fix-permissions $HOME
 

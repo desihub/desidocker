@@ -20,7 +20,13 @@ echo "|                 I   N   S   T   R   U   M   E   N   T                | "
 echo "-----------------------------------------------------------------------| "
 echo ""
 
+# Authenticate AWS IAM user and mount AWS bucket
 $LOCAL_BIN/aws_run.sh
-$LOCAL_BIN/desi_run.sh
+
+# Source desihub packages
+# The dot (.) is necessary for desi_run.sh to set the global environment variables
+. $LOCAL_BIN/desi_run.sh
+
+# Start the Jupyter server
 $LOCAL_BIN/start.sh start-notebook.py
 
