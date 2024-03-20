@@ -16,5 +16,3 @@ for package in desiutil specter specsim desitarget desispec desisim desimodel re
   git clone https://github.com/desihub/$package.git --depth 1
 done
 cd ..
-
-exit 0

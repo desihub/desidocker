@@ -6,6 +6,3 @@ for package in desiutil specter desitarget desispec desisim desimodel redrock de
   export PYTHONPATH=$DESI_HUB/$package/py:$PYTHONPATH
 done
 export PYTHONPATH=$DESI_HUB/specsim:$PYTHONPATH
-cd ..
-
-exit 0

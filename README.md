@@ -1,5 +1,7 @@
 # DESI access via AWS
 
+A Docker environment for running DESI code and analyzing AWS-hosted DESI data.
+
 ## Obtaining AWS credentials 
 
 1. Create an AWS account
@@ -24,14 +26,16 @@
 ```bash
 docker image build -t docker-aws-jupyter https://github.com/flyorboom/docker-aws-jupyter.git
 ```
-2. Run this line to run the image. Replace `PATH_TO_CREDENTIALS` to the path to your `credentials.csv`, and replace `YOUR_PORT` with a port you want to use, such as `8888`.
+3. Run this line to run the image. Replace `PATH_TO_CREDENTIALS` to the path to your `credentials.csv`, and replace `YOUR_PORT` with a port you want to use, such as `8888`.
 ```bash
 docker run -it \
   -p YOUR_PORT:8888 \
-  --mount type=bind,src="PATH_TO_CREDENTIALS",dst="/opt/aws/credentials.csv",readonly \
+  --mount type=bind,src="PATH_TO_CREDENTIALS",dst="/aws_credentials.csv",readonly \
+  --mount type=bind,src="$(pwd)",dst="/mnt/local_volume" \
+  --cap-add SYS_ADMIN \
   --device /dev/fuse \
-  --privileged \
+  --security-opt apparmor:unconfined \
   docker-aws-jupyter
 ```
-3. Locate the line beginning with `localhost:` in the output, and open the address in your browser.
+5. Locate the line beginning with `localhost:` in the output, and open the address in your browser.
 
