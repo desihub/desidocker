@@ -2,13 +2,10 @@
 
 # Install DESI Python libraries from github.com/desihub
 
-mamba install --yes \
-    numpy scipy astropy \
-    pyyaml requests ipython \
-    h5py scikit-learn matplotlib \
-    numba sqlalchemy pytz \
-    sphinx seaborn \
-    fitsio
+# Install big libraries one-by-one to avoid memory issues
+for package in numpy scipy astropy pyyaml requests ipython h5py scikit-learn matplotlib numba sqlalchemy pytz sphinx seaborn; do
+    mamba install --yes $package
+done
 
 pip install healpy speclite
 
