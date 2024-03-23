@@ -33,6 +33,9 @@ If you wish to run this Docker container on the cloud, one option is via with AW
 To access the Jupyter web server provided by our Docker image, 
 we need to create a security group which allows HTTPS network access.
 
+On AWS, navigate to **Services > EC2 > Security groups**, then click **Create security group**.
+Fill in the following fields &mdash;
+
 1. **Basic details:** Name the security group **jupyter**.
 2. **Inbound rules:** Add the following rules &mdash;
 
@@ -51,7 +54,12 @@ you should instead enter "Custom" for **Source type** and the range of possible 
 | ----        | -------- | ---------- | -----------   | ------        | -----------
 | All traffic | _(All)_  | _(All)_    | Anywhere-IPv4 | _(0.0.0.0/0)_ | Allow instance to access the whole internet
 
+Then click **Create security group**.
+
 ### Launch an instance
+
+On AWS, navigate to **Services > EC2 > Instances**, then click **Launch instances**.
+Fill in the following fields &mdash;
 
 1. **Name and tags:** Pick your own.
 2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Ubuntu**, although Amazon Linux and other Unix systems should also work.
@@ -60,6 +68,8 @@ you should instead enter "Custom" for **Source type** and the range of possible 
 4. **Key pair:** Create your own and save the private key file.
 5. **Network settings:** Select the **jupyter** security group we created earlier.
 6. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
+
+Then click **Launch instance**.
 
 ### Connecting to the Instance
 
