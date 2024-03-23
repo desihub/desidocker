@@ -34,8 +34,7 @@ To access the Jupyter web server provided by our Docker image,
 we need to create a security group which allows HTTPS network access.
 
 1. **Basic details:** Name the security group **jupyter**.
-2. **Inbound rules:** Note that if your IP address is not fixed,
-   you should enter "Custom" for **Source type** and the range of possible IP addresses you use in **Source**.
+2. **Inbound rules:** Add the following rules:
 
 | Type       | Protocol | Port range | Source type | Source      | Description
 | ----       | -------- | ---------- | ----------- | ------      | -----------
@@ -43,7 +42,10 @@ we need to create a security group which allows HTTPS network access.
 | HTTPS      | _(TCP)_  | _(443)_    | My IP       | _(Your IP)_ | Allow HTTPS for Jupyter server
 | SSH        | _(TCP)_  | _(22)_     | My IP       | _(Your IP)_ | Allow SSH access to the instance
 
-4. **Outbound rules:**
+If your IP address is not fixed,
+you should instead enter "Custom" for **Source type** and the range of possible IP addresses you use in **Source**.
+   
+4. **Outbound rules:** Add the following rule:
 
 | Type        | Protocol | Port range | Source type   | Source        | Description
 | ----        | -------- | ---------- | -----------   | ------        | -----------
