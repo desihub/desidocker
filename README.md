@@ -78,7 +78,7 @@ We recommend using SSH?
 
 ### Importing credentials 
 
-On the Terminal, write
+On the Terminal, run the following line to create a blank file.
 ```bash
 nano credentials.csv
 ```
@@ -129,5 +129,6 @@ docker run -it \
   --security-opt apparmor:unconfined \
   docker-aws-jupyter
 ```
-5. Locate the line beginning with `localhost:` in the output, and open the address in your browser.
+5. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
+   (If you are running a cloud instance, replace `127.0.0.1` with the public IP address of your cloud server.)
 
