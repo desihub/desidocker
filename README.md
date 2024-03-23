@@ -1,8 +1,22 @@
-# DESI access via AWS
+# Accessing cloud-hosted DESI data
 
-A Docker environment for running DESI code and analyzing AWS-hosted DESI data.
+DESI's early data release (EDR) will soon be made publicly accessible through an S3 cloud storage "bucket" on Amazon Web Services (AWS). 
+You can directly download the data at _insert url_.
+However, we recommend accessing this data through this repository's Docker image,
+a self-contained code environment which comes pre-packaged with
+* A filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more, and
+* A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries.
 
-## Obtaining AWS credentials 
+You can either run this image locally or on a cloud compute instance, such as AWS EC2. 
+Below, we will provide instructions for both use cases.
+
+## Getting started
+
+All DESI S3 data can be accessed via HTTPS without an AWS account.
+However, this Docker image relies on specific AWS software, which requires user credentials to run.
+As such, you will need to make an AWS account (which you can set to free tier), but you will not be charged any fees for this.
+
+### Obtaining AWS credentials
 
 1. Create an AWS account
 2. Follow the steps at [How to backup to S3 CLI](https://aws.amazon.com/getting-started/hands-on/backup-to-s3-cli/)
@@ -18,6 +32,10 @@ A Docker environment for running DESI code and analyzing AWS-hosted DESI data.
     YOUR_KEY_ID,YOUR_KEY_SECRET,default
     ```
     Save these changes to your file.
+
+## Setting up an EC2 instance (Optional)
+
+If you wish to run this Docker container
 
 ## Running the DESI- and AWS-equipped Jupyter container
 
