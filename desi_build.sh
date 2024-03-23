@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Install DESI Python libraries from github.com/desihub
+
 mamba install --yes \
     numpy scipy astropy \
     pyyaml requests ipython \

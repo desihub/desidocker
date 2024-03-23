@@ -59,8 +59,7 @@ RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/moun
     && apt-get clean \
     && rm ./mount-s3.deb
 
-# Build scripts are run during docker image build
-# Run scripts are run during docker run
+# *_build.sh scripts execute during `docker image build`
 COPY ./aws_build.sh ./desi_build.sh $LOCAL_BIN
 RUN chmod +x \
     $LOCAL_BIN/aws_build.sh \
@@ -69,6 +68,7 @@ RUN chmod +x \
 RUN $LOCAL_BIN/desi_build.sh
 RUN $LOCAL_BIN/aws_build.sh
 
+# *_run.sh scripts execute during `docker run` via main.sh
 ENTRYPOINT $LOCAL_BIN/main.sh
 
 COPY ./main.sh ./aws_run.sh ./desi_run.sh $LOCAL_BIN
@@ -77,12 +77,17 @@ RUN chmod +x \
     $LOCAL_BIN/aws_run.sh \
     $LOCAL_BIN/desi_run.sh
 
+# this fixes the AWS credentials file
+COPY ./fix_credentials.py $LOCAL_BIN
+
+# Create directory for AWS mount and symlink it to the home directiory
 RUN mkdir -p $MOUNT \
     && ln -s $MOUNT $HOME/synced
 
+# Fix permissions for home directory 
 RUN fix-permissions $HOME
 
+# Return to user privileges
 USER ${NB_UID}
-
 WORKDIR $HOME
 

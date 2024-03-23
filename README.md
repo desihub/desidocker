@@ -21,17 +21,6 @@ As such, you will need to make an AWS account (which you can set to free tier), 
 1. Create an AWS account
 2. Follow the steps at [How to backup to S3 CLI](https://aws.amazon.com/getting-started/hands-on/backup-to-s3-cli/)
    to create an AWS IAM user and save its `credentials.csv` file.
-3. Open `credentials.csv` and it should look like this:
-    ```csv
-    Access key ID,Secret access key
-    YOUR_KEY_ID,YOUR_KEY_SECRET
-    ```
-    Add `,User Name` to the first row and `,default` to the second row, similar to this:
-    ```csv
-    Access key ID,Secret access key,User Name
-    YOUR_KEY_ID,YOUR_KEY_SECRET,default
-    ```
-    Save these changes to your file.
 
 ## Setting up an EC2 instance (Optional)
 
@@ -48,7 +37,7 @@ docker image build -t docker-aws-jupyter https://github.com/flyorboom/docker-aws
 ```bash
 docker run -it \
   -p YOUR_PORT:8888 \
-  --mount type=bind,src="PATH_TO_CREDENTIALS",dst="/aws_credentials.csv",readonly \
+  --mount type=bind,src="PATH_TO_CREDENTIALS",dst="/tmp/aws_credentials.csv",readonly \
   --mount type=bind,src="$(pwd)",dst="/mnt/local_volume" \
   --cap-add SYS_ADMIN \
   --device /dev/fuse \
