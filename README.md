@@ -62,24 +62,49 @@ On AWS, navigate to **Services > EC2 > Instances**, then click **Launch instance
 Fill in the following fields &mdash;
 
 1. **Name and tags:** Pick your own.
-2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Ubuntu**, although Amazon Linux and other Unix systems should also work.
+2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Amazon Linux**, although Ubuntu and other Unix systems should also work.
 3. **Instance type:** For free-tier accounts, only **t2.micro** is currently available.
-   You can change to other instances if you need more computing power or memory.
+   You can change to other instances if you need more processing power and memory.
 4. **Key pair:** Create your own and save the private key file.
 5. **Network settings:** Select the **jupyter** security group we created earlier.
 6. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
 
 Then click **Launch instance**.
 
-### Connecting to the Instance
+### Connecting to the instance
 
 We recommend using SSH?
+
+### Installing Docker on the instance
+
+Amazon Linux uses the `yum` package management system. 
+Run the following lines to install Git and Docker.
+```bash
+# Refresh package repository
+sudo yum update
+
+# Install Git
+sudo yum install git
+
+# Install Docker
+sudo yum install docker
+
+# Give Docker extra permissions
+sudo usermod -a -G docker ec2-user
+id ec2-user
+newgrp docker
+
+# Start Docker's daemon
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+```
 
 ## Running the Docker image
 
 1. Install **[Docker engine](https://docs.docker.com/engine/install/)**.
-2. Open the Terminal
-3. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
+   (If you're running on Amazon Linux, see the alternative instructions above).
+3. Open the Terminal
+4. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
 ```bash
 docker image build -t docker-aws-jupyter https://github.com/flyorboom/docker-aws-jupyter.git
 ```
