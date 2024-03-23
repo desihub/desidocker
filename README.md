@@ -28,7 +28,7 @@ As such, you will need to make an AWS account (which you can set to free tier), 
 
 If you wish to run this Docker container on the cloud, one option is via with AWS EC2.
 
-## Create a security group
+### Create a security group
 
 To access the Jupyter web server provided by our Docker image, 
 we need to create a security group which allows HTTPS network access.
@@ -61,10 +61,15 @@ you should instead enter "Custom" for **Source type** and the range of possible 
 5. **Network settings:** Select the **jupyter** security group we created earlier.
 6. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
 
-## Running the DESI- and AWS-equipped Jupyter container
+### Connecting to the Instance
 
-1. Install Docker
-2. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
+We recommend using SSH?
+
+## Running the Docker image
+
+1. Install **[Docker engine](https://docs.docker.com/engine/install/)**.
+2. Open the Terminal
+3. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
 ```bash
 docker image build -t docker-aws-jupyter https://github.com/flyorboom/docker-aws-jupyter.git
 ```
