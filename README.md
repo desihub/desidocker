@@ -4,13 +4,17 @@ DESI's early data release (EDR) will soon be made publicly accessible through an
 You can directly download the data at _insert url_.
 However, we recommend accessing this data through this repository's Docker image,
 a self-contained code environment which comes pre-packaged with
-* A filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more
+* A filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more, and
 * A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries.
 
 You can either run this image locally or on a cloud compute instance, such as AWS EC2. 
 Below, we will provide instructions for both use cases.
 
 ## Getting started
+
+All DESI S3 data can be accessed via HTTPS without an AWS account.
+However, this Docker image relies on specific AWS software, which requires user credentials to run.
+As such, you will need to make an AWS account (which you can set to free tier), but you will not be charged any fees for this.
 
 ### Obtaining AWS credentials
 
