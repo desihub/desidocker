@@ -63,17 +63,27 @@ Fill in the following fields &mdash;
 
 1. **Name and tags:** Pick your own.
 2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Amazon Linux**, although Ubuntu and other Unix systems should also work.
-3. **Instance type:** For free-tier accounts, only **t2.micro** is currently available.
-   You can change to other instances if you need more processing power and memory.
-4. **Key pair:** Create your own and save the private key file.
-5. **Network settings:** Select the **jupyter** security group we created earlier.
-6. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
+3. **Instance type:** At least **2 GiB** of memory is required for installing all the necessary packages for DESI.
+   The cheapest instance type which has this much memory is **t2.small**.
+   You can upgrade to other instances if you need more processing power and memory.
+5. **Key pair:** Create your own and save the private key file.
+6. **Network settings:** Select the **jupyter** security group we created earlier.
+7. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
 
 Then click **Launch instance**.
 
 ### Connecting to the instance
 
 We recommend using SSH?
+
+### Importing credentials 
+
+On the Terminal, write
+```bash
+nano credentials.csv
+```
+Paste in your credentials (`Ctrl+Shift+V`), then save and exit (`Ctrl+X`, `Yes`, `Enter`).
+The credentials are now stored at `$HOME/credentials.csv`.
 
 ### Installing Docker on the instance
 
@@ -102,7 +112,7 @@ sudo systemctl start docker.service
 ## Running the Docker image
 
 1. Install **[Docker engine](https://docs.docker.com/engine/install/)**.
-   (If you're running on Amazon Linux, see the above instructions instead).
+   (If you're running on Amazon Linux, refer to the above instructions instead).
 3. Open the Terminal
 4. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
 ```bash
