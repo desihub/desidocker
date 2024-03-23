@@ -102,7 +102,7 @@ sudo systemctl start docker.service
 ## Running the Docker image
 
 1. Install **[Docker engine](https://docs.docker.com/engine/install/)**.
-   (If you're running on Amazon Linux, see the alternative instructions above).
+   (If you're running on Amazon Linux, see the above instructions instead).
 3. Open the Terminal
 4. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
 ```bash
