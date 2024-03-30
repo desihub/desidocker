@@ -50,12 +50,13 @@ RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/moun
     && apt-get clean \
     && rm ./mount-s3.deb
 
-# *_build.sh scripts execute during `docker image build`
+# Build stuff now
 COPY ./build.sh $LOCAL_BIN
 RUN chmod +x $LOCAL_BIN/build.sh \
-    && $LOCAL_BIN/build.sh
+    && $LOCAL_BIN/build.sh \
+    && rm $LOCAL_BIN/build.sh
 
-# *_run.sh scripts execute during `docker run` via main.sh
+# Run stuff when `docker run` is ran
 COPY ./run.sh $LOCAL_BIN
 RUN chmod +x $LOCAL_BIN/run.sh
 ENTRYPOINT $LOCAL_BIN/run.sh
