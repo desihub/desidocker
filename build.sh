@@ -11,7 +11,7 @@ mkdir -p $DESI_ROOT $DESI_ROOT_CACHE
 # Create directory for mounting to files outside Docker,
 # and symlink it to the home directiory
 
-mkdir -p $MOUNT $HOME/synced
+mkdir -p $MOUNT
 ln -s $MOUNT $HOME/synced
 
 # Install DESI Python dependencies with Mamba and pip
