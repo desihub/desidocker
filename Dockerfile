@@ -53,16 +53,12 @@ RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/moun
 # *_build.sh scripts execute during `docker image build`
 COPY ./build.sh $LOCAL_BIN
 RUN chmod +x $LOCAL_BIN/build.sh \
-    $LOCAL_BIN/build.sh
+    && $LOCAL_BIN/build.sh
 
 # *_run.sh scripts execute during `docker run` via main.sh
 COPY ./run.sh $LOCAL_BIN
 RUN chmod +x $LOCAL_BIN/run.sh
 ENTRYPOINT $LOCAL_BIN/run.sh
-
-# Create directory for AWS mount and symlink it to the home directiory
-RUN mkdir -p $MOUNT \
-    && ln -s $MOUNT $HOME/synced
 
 # Fix permissions for home directory 
 RUN fix-permissions $HOME
