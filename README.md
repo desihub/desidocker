@@ -98,7 +98,8 @@ sudo systemctl start docker.service
 1. Install **[Docker engine](https://docs.docker.com/engine/install/)**.
    (If you're running on Amazon Linux, refer to the above instructions instead).
 2. Open the Terminal
-3. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
+3. Run this line to build a Docker image from this repository.
+This should take 5 to 15 minutes, depending on your internet connection.
 ```bash
 docker image build -t docker-aws-jupyter https://github.com/flyorboom/docker-aws-jupyter.git
 ```
@@ -109,9 +110,9 @@ docker run -it -p 8888:8888 \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
   docker-aws-jupyter
 ```
-Note that mounting S3 as a local filesystem requires sysadmin-level access to the `fuse` device on your computer.
-[This is routine](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
-for scripts which mount custom filesystems.
+(Note that mounting the S3 bucket as a local filesystem [requires](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
+granting the container sysadmin-level access to your computer's [FUSE](https://en.wikipedia.org/wiki/Filesystem_in_Userspace) interface.
+This is not ideal for security, so if that is a major concern, then we do recommend running a cloud instance.)
 
 6. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
    (If you are running a cloud instance, replace `127.0.0.1` with the public IP address of your cloud server.)
