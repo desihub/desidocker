@@ -69,15 +69,6 @@ Then click **Launch instance**.
 
 We recommend using SSH?
 
-### Importing credentials 
-
-On the Terminal, run the following line to create a blank file.
-```bash
-nano credentials.csv
-```
-Paste in your credentials (`Ctrl+Shift+V`), then save and exit (`Ctrl+X`, `Yes`, `Enter`).
-The credentials are now stored at `$HOME/credentials.csv`.
-
 ### Installing Docker on the instance
 
 Amazon Linux uses the `yum` package management system. 
