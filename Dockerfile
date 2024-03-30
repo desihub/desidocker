@@ -26,6 +26,9 @@ ENV HOME=/home/$NB_UID
 ENV DESI_HUB=$HOME/.desihub
 ENV DESI_ROOT=$HOME/desiroot
 ENV DESI_ROOT_CACHE=$HOME/.desiroot_cache
+ENV SCRATCH=$HOME/scratch
+ENV SYNCED=$HOME/synced
+
 ENV USR_BIN=/usr/bin
 ENV LOCAL_BIN=/usr/local/bin
 ENV MOUNT=/mnt/local_volume

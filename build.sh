@@ -4,10 +4,11 @@
 
 mkdir -p $HOME
 echo "This is the home directory of this Docker container. 
-Files inside \`synced\` are synced to the directory in which you ran this container.
-Other files are saved to a volume associated with this container, which you can access with \`docker volume\`.
+Files inside \`synced\` (\`\$SYNCED\`) are synced to the directory in which you ran this container.
+Files elsewhere (e.g. inside \`\$SCRATCH\`) are saved to a volume associated with this container, which you can access with \`docker volume\`.
 
-DESI data releases are mounted at \`desiroot\`. Example code for processing the data can be found at \`tutorials\`.
+DESI data releases are mounted at \`desiroot\` (\`\$DESI_ROOT\`). 
+Example code for processing the data can be found at \`tutorials\`.
 " > $HOME/README.md
 
 # Create directories for mounting to AWS S3 Mountpoint
@@ -18,7 +19,7 @@ mkdir -p $DESI_ROOT $DESI_ROOT_CACHE
 # and symlink it to the home directiory
 
 mkdir -p $MOUNT
-ln -s $MOUNT $HOME/synced
+ln -s $MOUNT $SYNCED
 
 # Install DESI Python dependencies with Mamba and pip
 # (https://desi.lbl.gov/trac/wiki/Pipeline/GettingStarted/Laptop)
