@@ -44,15 +44,6 @@ RUN apt-get update --yes \
     && apt-get upgrade --yes \
     && apt-get clean
 
-# Install aws-cli
-RUN wget "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -i).zip" -O ./awscli.zip \
-    && unzip ./awscli.zip \
-    && chmod +x ./aws/install \
-    && ./aws/install \
-    -i /usr/aws-cli \
-    -b $USR_BIN \
-    && rm -r ./aws
-
 # Install mountpoint
 RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/mount-s3.deb" -O ./mount-s3.deb \
     && apt-get install --yes --no-install-recommends ./mount-s3.deb \
@@ -60,25 +51,14 @@ RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/moun
     && rm ./mount-s3.deb
 
 # *_build.sh scripts execute during `docker image build`
-COPY ./aws_build.sh ./desi_build.sh $LOCAL_BIN
-RUN chmod +x \
-    $LOCAL_BIN/aws_build.sh \
-    $LOCAL_BIN/desi_build.sh
-
-RUN $LOCAL_BIN/desi_build.sh
-RUN $LOCAL_BIN/aws_build.sh
+COPY ./build.sh $LOCAL_BIN
+RUN chmod +x $LOCAL_BIN/build.sh \
+    $LOCAL_BIN/build.sh
 
 # *_run.sh scripts execute during `docker run` via main.sh
-ENTRYPOINT $LOCAL_BIN/main.sh
-
-COPY ./main.sh ./aws_run.sh ./desi_run.sh $LOCAL_BIN
-RUN chmod +x \
-    $LOCAL_BIN/main.sh \
-    $LOCAL_BIN/aws_run.sh \
-    $LOCAL_BIN/desi_run.sh
-
-# this fixes the AWS credentials file
-COPY ./fix_credentials.py $LOCAL_BIN
+COPY ./run.sh $LOCAL_BIN
+RUN chmod +x $LOCAL_BIN/run.sh
+ENTRYPOINT $LOCAL_BIN/run.sh
 
 # Create directory for AWS mount and symlink it to the home directiory
 RUN mkdir -p $MOUNT \

@@ -7,26 +7,13 @@ a self-contained code environment which comes pre-packaged with
 * A filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more, and
 * A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries.
 
-You can either run this image locally or on a cloud compute instance, such as AWS EC2. 
-Below, we will provide instructions for both use cases.
-
-## Getting started
-
-All DESI S3 data can be accessed via HTTPS without an AWS account.
-However, this Docker image relies on specific AWS software, which requires user credentials to run.
-As such, you will need to make an AWS account (which you can set to free tier), but you will not be charged any fees for this.
-
-### Obtaining AWS credentials
-
-1. Create an AWS account
-2. Follow the steps at [How to backup to S3 CLI](https://aws.amazon.com/getting-started/hands-on/backup-to-s3-cli/)
-   to create an AWS IAM user and save its `credentials.csv` file.
+You can either run this image locally or on a cloud compute instance.
+If you prefer to run locally, skip directly to the section on [Running the Docker image](#running-the-docker-image).
+If you wish to run on the cloud, below are instructions for [Setting up an EC2 instance](#setting-up-an-ec2-instance-optional).
 
 ## Setting up an EC2 instance (Optional)
 
 (Up to date as of March 2024)
-
-If you wish to run this Docker container on the cloud, one option is via with AWS EC2.
 
 ### Create a security group
 
@@ -48,7 +35,7 @@ Fill in the following fields &mdash;
 If your IP address is not fixed (for example, if you primarily use cellular data or are on a large WiFi network),
 you should instead enter "Custom" for **Source type** and the range of possible IP addresses you use in **Source**.
    
-4. **Outbound rules:** Add the following rule (if it isn't already there) &mdash;
+3. **Outbound rules:** Add the following rule (if it isn't already there) &mdash;
 
 | Type        | Protocol | Port range | Source type   | Source        | Description
 | ----        | -------- | ---------- | -----------   | ------        | -----------
@@ -66,9 +53,9 @@ Fill in the following fields &mdash;
 3. **Instance type:** At least **2 GiB** of memory is required for installing all the necessary packages for DESI.
    The cheapest instance type which has this much memory is **t2.small**.
    You can upgrade to other instances if you need more processing power and memory.
-5. **Key pair:** Create your own and save the private key file.
-6. **Network settings:** Select the **jupyter** security group we created earlier.
-7. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
+4. **Key pair:** Create your own and save the private key file.
+5. **Network settings:** Select the **jupyter** security group we created earlier.
+6. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
 
 Then click **Launch instance**.
 
@@ -113,22 +100,22 @@ sudo systemctl start docker.service
 
 1. Install **[Docker engine](https://docs.docker.com/engine/install/)**.
    (If you're running on Amazon Linux, refer to the above instructions instead).
-3. Open the Terminal
-4. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
+2. Open the Terminal
+3. Run this line to build a Docker image from this repository. This should take 3 to 10 minutes.
 ```bash
 docker image build -t docker-aws-jupyter https://github.com/flyorboom/docker-aws-jupyter.git
 ```
-3. Run this line to run the image. Replace `PATH_TO_CREDENTIALS` with the path to your `credentials.csv`.
+4. Run this line to run the image.
 ```bash
-docker run -it \
-  -p 8888:8888 \
-  --mount type=bind,src="PATH_TO_CREDENTIALS",dst="/tmp/aws_credentials.csv",readonly \
-  --mount type=bind,src="$(pwd)",dst="/mnt/local_volume" \
-  --cap-add SYS_ADMIN \
-  --device /dev/fuse \
-  --security-opt apparmor:unconfined \
+docker run -it -p 8888:8888 \
+  --volume "$(pwd):/mnt/local_volume" \
+  --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
   docker-aws-jupyter
 ```
-5. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
+Note that mounting S3 as a local filesystem requires sysadmin-level access to the `fuse` device on your computer.
+[This is routine](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
+for mounting scripts.
+
+6. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
    (If you are running a cloud instance, replace `127.0.0.1` with the public IP address of your cloud server.)
 
