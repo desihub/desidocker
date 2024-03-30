@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
-# Set-up Mountpoint directories for AWS S3
+# Create home directory 
+
+mkdir -p $HOME
+
+# Create directories for mounting to AWS S3 Mountpoint
 
 mkdir -p $DESI_ROOT $DESI_ROOT_CACHE
 
-# Set-up mount directory for access to files outside Docker,
+# Create directory for mounting to files outside Docker,
 # and symlink it to the home directiory
 
 mkdir -p $MOUNT $HOME/synced
