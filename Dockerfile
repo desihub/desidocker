@@ -23,7 +23,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Directories
 ENV HOME=/home/$NB_UID
-ENV DESI_HUB=$HOME/desihub
+ENV DESI_HUB=$HOME/.desihub
 ENV DESI_ROOT=$HOME/desiroot
 ENV DESI_ROOT_CACHE=$HOME/.desiroot_cache
 ENV USR_BIN=/usr/bin

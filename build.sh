@@ -3,6 +3,12 @@
 # Create home directory 
 
 mkdir -p $HOME
+echo "This is the home directory of this Docker container. 
+Files inside \`synced\` are synced to the directory in which you ran this container.
+Other files are saved to a volume associated with this container, which you can access with \`docker volume\`.
+
+DESI data releases are mounted at \`desiroot\`. Example code for processing the data can be found at \`tutorials\`.
+" > $HOME/README.md
 
 # Create directories for mounting to AWS S3 Mountpoint
 
@@ -19,17 +25,23 @@ ln -s $MOUNT $HOME/synced
 # (installing big libraries one-by-one to avoid memory issues)
 
 for package in numpy scipy astropy pyyaml requests ipython h5py scikit-learn matplotlib numba sqlalchemy pytz sphinx seaborn; do
-    mamba install --yes $package
+    mamba install -c conda-forge --yes $package
 done
-
 pip install healpy speclite
+mamba install -c conda-forge --yes fitsio
 
 # Install DESI Python libraries
 # (https://github.com/desihub)
 
 mkdir -p $DESI_HUB
-pushd $DESI_HUB
 for package in desiutil specter specsim desitarget desispec desisim desimodel redrock redrock-templates desisurvey surveysim; do
-  git clone https://github.com/desihub/$package.git --depth 1
+  git clone --depth 1 \
+      https://github.com/desihub/$package.git \
+      $DESI_HUB/$package
 done
-popd
+
+# Clone tutorials
+
+git clone --depth 1 \
+    https://github.com/desihub/tutorials.git \
+    $HOME/tutorials
