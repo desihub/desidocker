@@ -15,7 +15,13 @@ If you wish to run on the cloud, below are instructions for [Setting up an EC2 i
 
 (Up to date as of March 2024)
 
-### Create a security group
+### Creating an account
+
+While you do not need an AWS account to access the DESI data locally,
+you do have to make one in order to use the AWS EC2 service.
+Billing is mainly charged for actively running the compute instances.
+
+### Creating a security group
 
 To access the Jupyter web server provided by our Docker image, 
 we need to create a security group which allows HTTPS network access.
