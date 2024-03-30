@@ -53,7 +53,7 @@ RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/moun
 # *_build.sh scripts execute during `docker image build`
 COPY ./build.sh $LOCAL_BIN
 RUN chmod +x $LOCAL_BIN/build.sh \
-    $LOCAL_BIN/build.sh
+    && $LOCAL_BIN/build.sh
 
 # *_run.sh scripts execute during `docker run` via main.sh
 COPY ./run.sh $LOCAL_BIN
