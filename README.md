@@ -49,7 +49,7 @@ you should instead enter "Custom" for **Source type** and the range of possible 
 
 Then click **Create security group**.
 
-### Launch an instance
+### Launching an instance
 
 On AWS, navigate to **Services > EC2 > Instances**, then click **Launch instances**.
 Fill in the following fields &mdash;
@@ -111,7 +111,7 @@ docker run -it -p 8888:8888 \
 ```
 Note that mounting S3 as a local filesystem requires sysadmin-level access to the `fuse` device on your computer.
 [This is routine](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
-for mounting scripts.
+for scripts which mount custom filesystems.
 
 6. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
    (If you are running a cloud instance, replace `127.0.0.1` with the public IP address of your cloud server.)
