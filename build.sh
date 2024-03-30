@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 
-# Install DESI Python libraries from github.com/desihub
+# Set-up Mountpoint directories
 
-# Install big libraries one-by-one to avoid memory issues
+mkdir -p $DESI_ROOT $DESI_ROOT_CACHE
+
+# Install DESI Python dependencies with Mamba and pip
+# (https://desi.lbl.gov/trac/wiki/Pipeline/GettingStarted/Laptop)
+# (installing big libraries one-by-one to avoid memory issues)
+
 for package in numpy scipy astropy pyyaml requests ipython h5py scikit-learn matplotlib numba sqlalchemy pytz sphinx seaborn; do
     mamba install --yes $package
 done
 
 pip install healpy speclite
+
+# Install DESI Python libraries
+# (https://github.com/desihub)
 
 mkdir -p $DESI_HUB
 pushd $DESI_HUB

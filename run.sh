@@ -20,13 +20,29 @@ echo "|                 I   N   S   T   R   U   M   E   N   T                | "
 echo "-----------------------------------------------------------------------| "
 echo ""
 
-# Authenticate AWS IAM user and mount AWS bucket
-$LOCAL_BIN/aws_run.sh
+# Mount AWS S3 bucket to $DESI_ROOT, with cache at $DESI_ROOT_CACHE.
 
-# Source desihub packages
-# The dot (.) is necessary for desi_run.sh to set the global environment variables
-. $LOCAL_BIN/desi_run.sh
+mount-s3 \
+    --cache $DESI_ROOT_CACHE \
+    --region us-west-2 \
+    --read-only \
+    --no-sign-request \
+    desiproto $DESI_ROOT
+
+# Add DESI Python libraries to PATH and PYTHONPATH
+# so they can be easily imported
+# (https://desi.lbl.gov/trac/wiki/Pipeline/GettingStarted/Laptop)
+
+pushd $DESI_HUB
+for package in desiutil specter desitarget desispec desisim desimodel redrock desisurvey surveysim; do
+  export PATH=$DESI_HUB/$package/bin:$PATH
+  export PYTHONPATH=$DESI_HUB/$package/py:$PYTHONPATH
+done
+export PYTHONPATH=$DESI_HUB/specsim:$PYTHONPATH
+popd
 
 # Start the Jupyter server
+# (https://github.com/jupyter/docker-stacks/blob/main/images/base-notebook/Dockerfile)
+
 $LOCAL_BIN/start.sh start-notebook.py
 
