@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
-# Set-up Mountpoint directories
+# Set-up Mountpoint directories for AWS S3
 
 mkdir -p $DESI_ROOT $DESI_ROOT_CACHE
+
+# Set-up mount directory for access to files outside Docker,
+# and symlink it to the home directiory
+
+mkdir -p $MOUNT $HOME/synced
+ln -s $MOUNT $HOME/synced
 
 # Install DESI Python dependencies with Mamba and pip
 # (https://desi.lbl.gov/trac/wiki/Pipeline/GettingStarted/Laptop)

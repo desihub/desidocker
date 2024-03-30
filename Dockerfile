@@ -60,10 +60,6 @@ COPY ./run.sh $LOCAL_BIN
 RUN chmod +x $LOCAL_BIN/run.sh
 ENTRYPOINT $LOCAL_BIN/run.sh
 
-# Create directory for AWS mount and symlink it to the home directiory
-RUN mkdir -p $MOUNT \
-    && ln -s $MOUNT $HOME/synced
-
 # Fix permissions for home directory 
 RUN fix-permissions $HOME
 
