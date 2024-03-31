@@ -42,5 +42,8 @@ export PYTHONPATH=$DESI_HUB/specsim:$PYTHONPATH
 # Start the Jupyter server
 # (https://github.com/jupyter/docker-stacks/blob/main/images/base-notebook/Dockerfile)
 
-$LOCAL_BIN/start.sh start-notebook.py
+/usr/local/bin/start.sh start-notebook.py
 
+# Unmount when done
+
+umount $DESI_ROOT
