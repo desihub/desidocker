@@ -12,7 +12,7 @@ ARG STACK_REGISTRY=quay.io
 ARG STACK_OWNER=jupyter
 ARG STACK_BASE=scipy-notebook
 ARG STACK_VERSION=latest
-FROM $STACK_REGISTRY/$STACK_OWNER/$STACK_BASE:$STACK_VERSION
+FROM quay.io/jupyter/$STACK_BASE:$STACK_VERSION
 
 # Set-up environment
 # ==================
@@ -108,6 +108,6 @@ ENTRYPOINT /usr/local/bin/run.sh
 # =========================
 
 RUN fix-permissions $HOME
-USER ${NB_UID}
+USER $NB_UID
 WORKDIR $HOME
 
