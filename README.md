@@ -8,7 +8,10 @@ a self-contained code environment which comes pre-packaged with
 * A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries.
 
 You can either run this image locally or on a cloud compute instance.
-If you prefer to run locally, skip directly to the section on [Running the Docker image](#running-the-docker-image).
+A cloud compute instance gives you on-demand access to additional storage and processing power.
+The cost is mainly charged for actively running the compute instances.
+
+If you prefer to run locally, skip ahead to the section on [Running the Docker image](#running-the-docker-image).
 If you wish to run on the cloud, below are instructions for [Setting up an EC2 instance](#setting-up-an-ec2-instance-optional).
 
 ## Setting up an EC2 instance (Optional)
@@ -19,14 +22,17 @@ If you wish to run on the cloud, below are instructions for [Setting up an EC2 i
 
 While you do not need an AWS account to access the DESI data locally,
 you do have to make one in order to use the AWS EC2 service.
-Billing is mainly charged for actively running the compute instances.
+Follow the official instructions for
+[First time users of AWS](https://docs.aws.amazon.com/accounts/latest/reference/welcome-first-time-user.html)
+to get started.
+Once you’ve signed into your account, you can navigate to **Services » EC2** to set-up a cloud compute instance.
 
 ### Creating a security group
 
 To access the Jupyter web server provided by our Docker image, 
-we need to create a security group which allows HTTPS network access.
+first we need to create a security group which allows HTTPS network access.
 
-On AWS, navigate to **Services > EC2 > Security groups**, then click **Create security group**.
+Navigate to **Services » EC2 » Security groups**, then click **Create security group**.
 Fill in the following fields &mdash;
 
 1. **Basic details:** Name the security group **jupyter**.
@@ -51,22 +57,20 @@ Then click **Create security group**.
 
 ### Launching an instance
 
-On AWS, navigate to **Services > EC2 > Instances**, then click **Launch instances**.
+Navigate to **Services » EC2 » Instances**, then click **Launch instances**.
 Fill in the following fields &mdash;
 
 1. **Name and tags:** Pick your own.
 2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Amazon Linux**, although Ubuntu and other Unix systems should also work.
-3. **Instance type:** Although **t2.nano** works, we recommend at minimum a **t2.micro**.
-   You can upgrade to other instances if you need more processing power and memory.
-4. **Key pair:** Create your own and save the private key file.
-5. **Network settings:** Select the **jupyter** security group we created earlier.
-6. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
+3. **Instance type:** We recommend starting with **t2.micro**. You can upgrade to other instances if you need more processing power and memory,
+   or downgrade to t2.nano for a lower cost.
+5. **Key pair:** Create your own and save the private key file.
+6. **Network settings:** Select the **jupyter** security group we created earlier.
+7. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
 
 Then click **Launch instance**.
-
-### Connecting to the instance
-
-We recommend using SSH?
+After the instance has loaded, follow the official instructions to 
+[Connect to your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-methods.html).
 
 ### Installing Docker on the instance
 
