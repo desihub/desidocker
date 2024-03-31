@@ -56,8 +56,7 @@ Fill in the following fields &mdash;
 
 1. **Name and tags:** Pick your own.
 2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Amazon Linux**, although Ubuntu and other Unix systems should also work.
-3. **Instance type:** At least **2 GiB** of memory is required for installing all the necessary packages for DESI.
-   The cheapest instance type which has this much memory is **t2.small**.
+3. **Instance type:** Although **t2.nano** works, we recommend at minimum a **t2.micro**.
    You can upgrade to other instances if you need more processing power and memory.
 4. **Key pair:** Create your own and save the private key file.
 5. **Network settings:** Select the **jupyter** security group we created earlier.
@@ -97,23 +96,17 @@ sudo systemctl start docker.service
 
 1. Install **[Docker engine](https://docs.docker.com/engine/install/)**.
    (If you're running on Amazon Linux, refer to the above instructions instead).
-2. Open the Terminal
-3. Run this line to build a Docker image from this repository.
-This should take 5 to 15 minutes, depending on your internet connection.
-```bash
-docker image build -t docker-aws-jupyter https://github.com/flyorboom/docker-aws-jupyter.git
-```
-4. Run this line to run the image.
+   
+2. Run this line to run the image.
 ```bash
 docker run -it -p 8888:8888 \
   --volume "$(pwd):/mnt/local_volume" \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
-  docker-aws-jupyter
+  ghcr.io/flyorboom/docker-aws-jupyter:main
 ```
 (Note that mounting the S3 bucket as a local filesystem [requires](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
 granting the container sysadmin-level access to your computer's [FUSE](https://en.wikipedia.org/wiki/Filesystem_in_Userspace) interface.
 This is not ideal for security, so if that is a major concern, then we do recommend running a cloud instance.)
 
-6. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
+3. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
    (If you are running a cloud instance, replace `127.0.0.1` with the public IP address of your cloud server.)
-
