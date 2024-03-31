@@ -23,11 +23,11 @@ echo "
 # Mount AWS S3 bucket to $DESI_ROOT, with cache at $DESI_ROOT_CACHE.
 
 mount-s3 \
-    --cache $DESI_ROOT_CACHE \
+    --cache $DESI_BUCKET_CACHE \
     --region us-west-2 \
     --read-only \
     --no-sign-request \
-    desiproto $DESI_ROOT
+    desiproto $DESI_BUCKET
 
 # Add DESI Python libraries to PATH and PYTHONPATH
 # so they can be easily imported

@@ -10,9 +10,11 @@ a self-contained code environment which comes pre-packaged with
 You can either run this image locally or on a cloud compute instance.
 A cloud compute instance gives you on-demand access to additional storage and processing power.
 The cost is mainly charged for actively running the compute instances.
+We recommend using AWS EC2 cloud instances in particular, 
+as they have a very high-bandwidth network integration with AWS S3.
 
 If you prefer to run locally, skip ahead to the section on [Running the Docker image](#running-the-docker-image).
-If you wish to run on the cloud, below are instructions for [Setting up an EC2 instance](#setting-up-an-ec2-instance-optional).
+If you wish to run on the cloud, we provide instructions below for [Setting up an EC2 instance](#setting-up-an-ec2-instance-optional).
 
 ## Setting up an EC2 instance (Optional)
 
@@ -25,7 +27,9 @@ you do have to make one in order to use the AWS EC2 service.
 Follow the official instructions for
 [First time users of AWS](https://docs.aws.amazon.com/accounts/latest/reference/welcome-first-time-user.html)
 to get started.
-Once you’ve signed into your account, you can navigate to **Services » EC2** to set-up a cloud compute instance.
+Once you’ve signed into your account, 
+we recommend switching your region to **us-west-2 (Oregon)** as that is the region of our S3 bucket.
+Then, you can navigate to **Services » EC2** to set-up a cloud compute instance.
 
 ### Creating a security group
 
@@ -104,7 +108,7 @@ sudo systemctl start docker.service
    we recommend installing [Docker engine](https://docs.docker.com/engine/install/) (the command-line tool).
    Otherwise, you should install [Docker Desktop](https://docs.docker.com/get-docker/).
  
-3. Run this line to run the image.
+2. Run this line to run the image.
 ```bash
 docker run -it -p 8888:8888 \
   --volume "$(pwd):/mnt/local_volume" \
@@ -117,3 +121,10 @@ This is not ideal for security, so if that is a major concern, then we do recomm
 
 3. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
    (If you are running a cloud instance, replace `127.0.0.1` with the public IP address of your cloud server.)
+
+### Updating the Docker image
+
+To update your Docker image, run
+```bash
+docker pull ghcr.io/flyorboom/docker-aws-jupyter:main
+```

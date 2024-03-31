@@ -1,7 +1,5 @@
 ### Docker image for analyzing AWS S3-hosted DESI data with Jupyterlab
 
-ARG DESI_RELEASE=edr
-
 # Build from container provided by Jupyter
 # ========================================
 # https://github.com/jupyter/docker-stacks
@@ -16,6 +14,8 @@ FROM quay.io/jupyter/$STACK_BASE:$STACK_VERSION
 
 # Set-up environment
 # ==================
+
+ENV DESI_RELEASE=edr
 
 # Slight customization to Bash
 # https://docs.docker.com/develop/develop-images/instructions/#using-pipes
