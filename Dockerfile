@@ -51,8 +51,8 @@ ENV SYNCED=$HOME/synced
 RUN mkdir -p $HOME $DESI_HUB $DESI_ROOT $DESI_ROOT_CACHE $MOUNT \
     && ln -s $MOUNT $SYNCED
 
-# Add README to home directory
-COPY ./home.md $HOME/README.md
+# Add startup file to home directory
+COPY ./welcome.ipynb $HOME
 
 # Install AWS Mountpoint
 # ======================
