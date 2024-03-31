@@ -98,10 +98,13 @@ sudo systemctl start docker.service
 
 ## Running the Docker image
 
-1. Install **[Docker engine](https://docs.docker.com/engine/install/)**.
-   (If you're running on Amazon Linux, refer to the above instructions instead).
-   
-2. Run this line to run the image.
+1. Get Docker.
+   If you're running Amazon Linux, refer to the installation instructions in the previous section.
+   If you're running macOS or another Linux distribution,
+   we recommend installing [Docker engine](https://docs.docker.com/engine/install/) (the command-line tool).
+   Otherwise, you should install [Docker Desktop](https://docs.docker.com/get-docker/).
+ 
+3. Run this line to run the image.
 ```bash
 docker run -it -p 8888:8888 \
   --volume "$(pwd):/mnt/local_volume" \
