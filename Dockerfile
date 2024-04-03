@@ -1,14 +1,16 @@
 ### Docker image for analyzing AWS S3-hosted DESI data with Jupyterlab
 
+ARG DESI_RELEASE=edr
+
 # Build from container provided by Jupyter
 # ========================================
 # https://github.com/jupyter/docker-stacks
-# We will be using minimal-notebook for the $STACK_BASE,
-# but other options (such as scipy-notebook) are available.
+# We will be using scipy-notebook for the $STACK_BASE,
+# but other options (such as minimal-notebook) are available.
 
 ARG STACK_REGISTRY=quay.io
 ARG STACK_OWNER=jupyter
-ARG STACK_BASE=minimal-notebook
+ARG STACK_BASE=scipy-notebook
 ARG STACK_VERSION=latest
 FROM $STACK_REGISTRY/$STACK_OWNER/$STACK_BASE:$STACK_VERSION
 
@@ -36,11 +38,14 @@ RUN apt-get update --yes \
 ENV HOME=/home/$NB_UID
 
 # DESI Python packages are cloned to $DESI_HUB
-ENV DESI_HUB=$HOME/.desihub
+ENV DESI_HUB=$HOME/desihub
 
-# Mountpoint mounts the S3 bucket to $DESI_ROOT, with cache at $DESI_ROOT_CACHE
-ENV DESI_ROOT=$HOME/desiroot
-ENV DESI_ROOT_CACHE=$HOME/.desiroot_cache
+# Mountpoint mounts the S3 bucket to $DESI_BUCKET, with cache at $DESI_BUCKET_CACHE
+ENV DESI_BUCKET=$HOME/desibucket
+ENV DESI_BUCKET_CACHE=$HOME/.desibucket_cache
+
+# For compatibility with NERSC, $DESI_ROOT points to the base of the latest public data release
+ENV DESI_ROOT=$DESI_BUCKET/$DESI_RELEASE
 
 # Docker mounts local user files in $(pwd) to $MOUNT,
 # which we symlink to $SYNCED
@@ -48,7 +53,7 @@ ENV MOUNT=/mnt/local_volume
 ENV SYNCED=$HOME/synced
 
 # Create directories
-RUN mkdir -p $HOME $DESI_HUB $DESI_ROOT $DESI_ROOT_CACHE $MOUNT \
+RUN mkdir -p $HOME $DESI_HUB $DESI_BUCKET $DESI_BUCKET_CACHE $MOUNT \
     && ln -s $MOUNT $SYNCED
 
 # Add startup file to home directory
