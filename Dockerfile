@@ -47,13 +47,16 @@ ENV DESI_BUCKET_CACHE=$HOME/.desibucket_cache
 # For compatibility with NERSC, $DESI_ROOT points to the base of the latest public data release
 ENV DESI_ROOT=$DESI_BUCKET/$DESI_RELEASE
 
+# NERSC also provides a "scratch" directory for scratch work
+ENV SCRATCH=$HOME/scratch
+
 # Docker mounts local user files in $(pwd) to $MOUNT,
 # which we symlink to $SYNCED
 ENV MOUNT=/mnt/local_volume
 ENV SYNCED=$HOME/synced
 
 # Create directories
-RUN mkdir -p $HOME $DESI_HUB $DESI_BUCKET $DESI_BUCKET_CACHE $MOUNT \
+RUN mkdir -p $HOME $DESI_HUB $DESI_BUCKET $DESI_BUCKET_CACHE $SCRATCH $MOUNT \
     && ln -s $MOUNT $SYNCED
 
 # Add startup file to home directory
