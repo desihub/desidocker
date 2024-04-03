@@ -47,6 +47,10 @@ ENV DESI_BUCKET_CACHE=$HOME/.desibucket_cache
 # For compatibility with NERSC, $DESI_ROOT points to the base of the latest public data release
 ENV DESI_ROOT=$DESI_BUCKET/$DESI_RELEASE
 
+# Some NERSC tutorials use this hard-coded path instead, which we symlink
+ENV DESI_NERSC=/global/cfs/cdirs/desi
+ENV DESI_NERSC_BUCKET=$DESI_NERSC/public
+
 # NERSC also provides a "scratch" directory for scratch work
 ENV SCRATCH=$HOME/scratch
 
@@ -56,8 +60,9 @@ ENV MOUNT=/mnt/local_volume
 ENV SYNCED=$HOME/synced
 
 # Create directories
-RUN mkdir -p $HOME $DESI_HUB $DESI_BUCKET $DESI_BUCKET_CACHE $SCRATCH $MOUNT \
-    && ln -s $MOUNT $SYNCED
+RUN mkdir -p $HOME $DESI_HUB $DESI_BUCKET $DESI_BUCKET_CACHE $DESI_NERSC $SCRATCH $MOUNT \
+    && ln -s $MOUNT $SYNCED \
+    && ln -s $DESI_BUCKET $DESI_NERSC_BUCKET
 
 # Add startup file to home directory
 COPY ./welcome.ipynb $HOME
