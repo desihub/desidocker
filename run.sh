@@ -46,4 +46,4 @@ export PYTHONPATH=$DESI_HUB/specsim:$PYTHONPATH
 
 # Unmount when done
 
-umount $DESI_ROOT
+umount $DESI_BUCKET
