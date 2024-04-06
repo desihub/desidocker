@@ -102,13 +102,13 @@ sudo systemctl start docker.service
 
 ## Running the Docker image
 
-1. Get Docker.
+1. Get Docker Engine, Docker's command-line tool.
    If you're running Amazon Linux, refer to the installation instructions in the previous section.
-   If you're running macOS or another Linux distribution,
-   we recommend installing [Docker engine](https://docs.docker.com/engine/install/) (the command-line tool).
-   Otherwise, you should install [Docker Desktop](https://docs.docker.com/get-docker/).
- 
-2. Run this line to run the image.
+   Windows and macOS users should install [Docker Desktop](https://docs.docker.com/get-docker/), which comes bundled with Docker Engine.
+   If you're running another Linux distribution,
+   we recommend installing [Docker Engine for Linux](https://docs.docker.com/engine/install/) directly.
+
+3. In the terminal, run this shell command to download and run the image.
 ```bash
 docker run -it -p 8888:8888 \
   --volume "$(pwd):/home/synced" \
