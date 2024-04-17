@@ -1,11 +1,13 @@
-# Accessing cloud-hosted DESI data
+# Accessing cloud- and locally-hosted DESI data
 
-DESI's early data release (EDR) will soon be made publicly accessible through an S3 cloud storage "bucket" on Amazon Web Services (AWS). 
-You can directly download the data at _insert url_.
-However, we recommend accessing this data through this repository's Docker image,
-a self-contained code environment which comes pre-packaged with
-* A filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more, and
-* A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries.
+DESI's early data release (EDR) will soon be made publicly available at an S3 cloud storage "bucket" on Amazon Web Services (AWS). 
+If you have sufficient storage space, you can download and host the entire data release locally. 
+However, due to the large memory footprint, we recommend most users to stream the data on-demand from the cloud.
+
+Here, we provide a Docker image which makes it seamless to work with both local and cloud-hosted DESI data.
+This Docker image is a self-contained code environment which comes pre-packaged with
+* A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries, and
+* (If you are not hosting locally), a filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more.
 
 You can either run this image locally or on a cloud compute instance.
 A cloud compute instance gives you on-demand access to additional storage and processing power.
@@ -48,9 +50,10 @@ Fill in the following fields &mdash;
 | HTTPS      | _(TCP)_  | _(443)_    | My IP       | _(Your IP)_ | Allow HTTPS for Jupyter server
 | SSH        | _(TCP)_  | _(22)_     | My IP       | _(Your IP)_ | Allow SSH access to the instance
 
-If your IP address is not fixed (for example, if you primarily use cellular data or are on a large WiFi network),
-you should instead enter "Custom" for **Source type** and the range of possible IP addresses you use in **Source**.
-   
+* If your IP address is not fixed (for example, if you primarily use cellular data or are on a large WiFi network),
+  you should instead enter "Custom" for **Source type** and the range of possible IP addresses you use in **Source**.
+
+
 3. **Outbound rules:** Add the following rule (if it isn't already there) &mdash;
 
 | Type        | Protocol | Port range | Source type   | Source        | Description
@@ -103,10 +106,12 @@ sudo systemctl start docker.service
 ## Running the Docker image
 
 1. Get Docker Engine, Docker's command-line tool.
-   If you're running Amazon Linux, refer to the installation instructions in the previous section.
-   Windows and macOS users should install [Docker Desktop](https://docs.docker.com/get-docker/), which comes bundled with Docker Engine.
-   If you're running another Linux distribution,
-   we recommend installing [Docker Engine for Linux](https://docs.docker.com/engine/install/) directly.
+* Windows and macOS users should install [Docker Desktop](https://docs.docker.com/get-docker/), which comes bundled with Docker Engine.
+  * Windows users need to first install [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install)
+    and [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/install).
+    Then, in Windows Terminal, switch from PowerShell to a Linux shell (such as Ubuntu) for running Docker Engine.
+* Linux users can either install the full [Docker Desktop](https://docs.docker.com/get-docker/), or [Docker Engine for Linux](https://docs.docker.com/engine/install/) directly.
+  * If you're running Amazon Linux on AWS EC2, refer to the installation instructions in the previous section instead.
 
 3. In the terminal, run this shell command to download and run the image.
 ```bash
@@ -115,14 +120,14 @@ docker run -it -p 8888:8888 \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
   ghcr.io/flyorboom/docker-aws-jupyter:main
 ```
-(Note that mounting the S3 bucket as a local filesystem [requires](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
-granting the container sysadmin-level access to your computer's [FUSE](https://en.wikipedia.org/wiki/Filesystem_in_Userspace) interface.
-This is not ideal for security, so if that is a major concern, then we do recommend running a cloud instance.)
+   * Note that mounting the S3 bucket as a local filesystem [requires](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
+     granting the container sysadmin-level access to your computer's [FUSE](https://en.wikipedia.org/wiki/Filesystem_in_Userspace) interface.
+     This is not ideal for security, so if that is a major concern, then we do recommend running a cloud instance.
 
 3. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
    (If you are running a cloud instance, replace `127.0.0.1` with the public IP address of your cloud server.)
 
-## Locally hosted DESI data
+### Locally hosted DESI data
 
 To use a locally hosted DESI data release, instead run
 ```bash
@@ -131,6 +136,7 @@ docker run -it -p 8888:8888 \
   --volume "path_to_local_data:/home/desibucket:ro" \
   ghcr.io/flyorboom/docker-aws-jupyter:main
 ```
+If you want to give the Docker container write access to your data release, then remove the `:ro` at the end of the flag.
 
 ### Updating the Docker image
 
