@@ -111,7 +111,7 @@ sudo systemctl start docker.service
 2. Run this line to run the image.
 ```bash
 docker run -it -p 8888:8888 \
-  --volume "$(pwd):/mnt/local_volume" \
+  --volume "$(pwd):/home/synced" \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
   ghcr.io/flyorboom/docker-aws-jupyter:main
 ```
@@ -121,6 +121,16 @@ This is not ideal for security, so if that is a major concern, then we do recomm
 
 3. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
    (If you are running a cloud instance, replace `127.0.0.1` with the public IP address of your cloud server.)
+
+## Locally hosted DESI data
+
+To use a locally hosted DESI data release, instead run
+```bash
+docker run -it -p 8888:8888 \
+  --volume "$(pwd):/home/synced" \
+  --volume "path_to_local_data:/home/desibucket:ro" \
+  ghcr.io/flyorboom/docker-aws-jupyter:main
+```
 
 ### Updating the Docker image
 

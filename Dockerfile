@@ -26,6 +26,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 USER root
 WORKDIR /tmp
 
+# Remove Jupyter stacks' default directory
+RUN rm -r /home/jovyan
+
 # Ensure all dependencies can be installed
 RUN apt-get update --yes \
     && apt-get upgrade --yes \
@@ -33,12 +36,7 @@ RUN apt-get update --yes \
 
 # Make directories
 # ================
-
-# All Jupyter containers contain a rootless user $NB_UID
-ENV HOME=/home/$NB_UID
-
-# DESI Python packages are cloned to $DESI_HUB
-ENV DESI_HUB=$HOME/desihub
+ENV HOME=/home
 
 # Mountpoint mounts the S3 bucket to $DESI_BUCKET, with cache at $DESI_BUCKET_CACHE
 ENV DESI_BUCKET=$HOME/desibucket
@@ -49,20 +47,20 @@ ENV DESI_ROOT=$DESI_BUCKET/$DESI_RELEASE
 
 # Some NERSC tutorials use this hard-coded path instead, which we symlink
 ENV DESI_NERSC=/global/cfs/cdirs/desi
-ENV DESI_NERSC_BUCKET=$DESI_NERSC/public
+ENV DESI_BUCKET_NERSC=$DESI_NERSC/public
 
 # NERSC also provides a "scratch" directory for scratch work
 ENV SCRATCH=$HOME/scratch
 
-# Docker mounts local user files in $(pwd) to $MOUNT,
-# which we symlink to $SYNCED
-ENV MOUNT=/mnt/local_volume
+# Docker mounts local user files in $(pwd) to $SYNCED,
 ENV SYNCED=$HOME/synced
 
+# DESI Python packages are cloned to $DESI_HUB
+ENV DESI_HUB=$HOME/desihub
+
 # Create directories
-RUN mkdir -p $HOME $DESI_HUB $DESI_BUCKET $DESI_BUCKET_CACHE $DESI_NERSC $SCRATCH $MOUNT \
-    && ln -s $MOUNT $SYNCED \
-    && ln -s $DESI_BUCKET $DESI_NERSC_BUCKET
+RUN mkdir -p $HOME $DESI_HUB $DESI_BUCKET $DESI_BUCKET_CACHE $DESI_NERSC $SCRATCH $SYNCED \
+    && ln -s $DESI_BUCKET $DESI_BUCKET_NERSC
 
 # Add startup file to home directory
 COPY ./welcome.ipynb $HOME
@@ -84,7 +82,7 @@ RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/moun
 # https://desi.lbl.gov/trac/wiki/Pipeline/GettingStarted/Laptop
 # Installing big libraries one-by-one to avoid memory issues
 
-ARG CONDA_PACKAGES="numpy scipy astropy pyyaml requests ipython h5py scikit-learn matplotlib-base numba sqlalchemy pytz sphinx seaborn fitsio"
+ENV CONDA_PACKAGES="numpy scipy astropy pyyaml requests ipython h5py scikit-learn matplotlib-base numba sqlalchemy pytz sphinx seaborn fitsio"
 RUN for package in $CONDA_PACKAGES; do \
     mamba install -c conda-forge --yes $package; done \
     && mamba clean --all -f --yes \

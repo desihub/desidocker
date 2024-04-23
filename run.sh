@@ -20,14 +20,20 @@ echo "
 -----------------------------------------------------------------------| 
 "
 
-# Mount AWS S3 bucket to $DESI_ROOT, with cache at $DESI_ROOT_CACHE.
+# If $DESI_BUCKET is not already occupied (by a local mount), 
+# then mount AWS S3 bucket to $DESI_BUCKET, with cache at $DESI_BUCKET_CACHE.
 
-mount-s3 \
-    --cache $DESI_BUCKET_CACHE \
-    --region us-west-2 \
-    --read-only \
-    --no-sign-request \
-    desiproto $DESI_BUCKET
+if [ "$(ls -A $DESI_BUCKET)" ]; then
+    echo "Mounted local DESI data directory."
+else
+    mount-s3 \
+        --cache $DESI_BUCKET_CACHE \
+        --region us-west-2 \
+        --read-only \
+        --no-sign-request \
+        desiproto $DESI_BUCKET
+    echo "Mounted remote DESI data directory."
+fi
 
 # Add DESI Python libraries to PATH and PYTHONPATH
 # so they can be easily imported
