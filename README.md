@@ -37,7 +37,7 @@ We will be using Docker Engine, Docker's command-line tool.
 
 ### Step 2. Running the image
 
-Open your computer's terminal.
+Open your computer terminal, and navigate to the folder you use as your workspace for DESI.
 
 If your DESI data is locally hosted at `local_data_path`, then enter this command:
 ```bash
