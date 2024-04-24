@@ -20,19 +20,29 @@ echo "
 -----------------------------------------------------------------------| 
 "
 
+# Set release to latest public release (edr), unless user-specified at runtime.
+# The ,, forces lowercase.
+
+if [ -z "$DESI_RELEASE" ]; then
+    export DESI_RELEASE=edr
+fi
+DESI_RELEASE=${DESI_RELEASE,,}
+echo "+ Set \$DESI_ROOT to the $DESI_RELEASE release."
+export DESI_ROOT=$DESI_BUCKET/$DESI_RELEASE
+
 # If $DESI_BUCKET is not already occupied (by a local mount), 
 # then mount AWS S3 bucket to $DESI_BUCKET, with cache at $DESI_BUCKET_CACHE.
 
 if [ "$(ls -A $DESI_BUCKET)" ]; then
-    echo "Mounted local DESI data directory."
+    echo "+ Mounted local DESI data directory."
 else
+    echo "+ Mounting remote DESI data directory..."
     mount-s3 \
         --cache $DESI_BUCKET_CACHE \
         --region us-west-2 \
         --read-only \
         --no-sign-request \
         desiproto $DESI_BUCKET
-    echo "Mounted remote DESI data directory."
 fi
 
 # Add DESI Python libraries to PATH and PYTHONPATH
@@ -48,6 +58,8 @@ export PYTHONPATH=$DESI_HUB/specsim:$PYTHONPATH
 # Start the Jupyter server
 # (https://github.com/jupyter/docker-stacks/blob/main/images/base-notebook/Dockerfile)
 
+echo "+ Starting Jupyter..."
+echo ""
 /usr/local/bin/start.sh start-notebook.py
 
 # Unmount when done

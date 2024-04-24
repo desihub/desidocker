@@ -41,7 +41,7 @@ Open your computer's terminal.
 
 If your DESI data is locally hosted at `local_data_path`, then enter this command:
 ```bash
-docker run -it -p 8888:8888 \
+docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
   --volume "$(pwd):/home/synced" \
   --volume "local_data_path:/home/desibucket:ro" \
   ghcr.io/flyorboom/docker-aws-jupyter:main
@@ -50,7 +50,7 @@ docker run -it -p 8888:8888 \
 
 Otherwise, to access the DESI data hosted at AWS S3, then enter this command instead:
 ```bash
-docker run -it -p 8888:8888 \
+docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
   --volume "$(pwd):/home/synced" \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
   ghcr.io/flyorboom/docker-aws-jupyter:main
@@ -149,7 +149,7 @@ sudo systemctl start docker.service
 
 In the terminal, run this shell command to download and run the image.
 ```bash
-docker run -it -p 8888:8888 \
+docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
   --volume "$(pwd):/home/synced" \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
   ghcr.io/flyorboom/docker-aws-jupyter:main
@@ -157,6 +157,21 @@ docker run -it -p 8888:8888 \
 
 Once the image starts running, locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output.
 Replace `127.0.0.1` with the public IP address of your cloud server, then open the modified link in your browser.
+
+## Customizations
+
+* The internal and external ports of the Jupyter server are respectively the first and second `8888` in `-p 8888:8888`.
+  Adjust these (as well as the port security policy if using EC2) should you have port collision issues.
+* To point `$DESI_ROOT` to another public data release, 
+  replace `edr` with the other release's name in the `-e DESI_RELEASE=edr` flag.
+* To sync your changes in the container to a custom local folder, 
+  replace `$(pwd)` (which points to the folder where you entered the `docker run` command) 
+  with the absolute path to the custom folder.
+* To build the image yourself, enter the command
+`` bash
+docker build github.com/flyorboom/docker-aws-jupyter.git --tag desi-aws
+```
+  Then, simply replace the tag `ghcr.io/flyorboom/docker-aws-jupyter:main` with `desi-aws` when running the image.
 
 ## Updating the Docker image
 

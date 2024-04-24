@@ -15,8 +15,6 @@ FROM quay.io/jupyter/$STACK_BASE:$STACK_VERSION
 # Set-up environment
 # ==================
 
-ENV DESI_RELEASE=edr
-
 # Slight customization to Bash
 # https://docs.docker.com/develop/develop-images/instructions/#using-pipes
 # This fails commands even if errors occur before a pipe
@@ -41,9 +39,6 @@ ENV HOME=/home
 # Mountpoint mounts the S3 bucket to $DESI_BUCKET, with cache at $DESI_BUCKET_CACHE
 ENV DESI_BUCKET=$HOME/desibucket
 ENV DESI_BUCKET_CACHE=$HOME/.desibucket_cache
-
-# For compatibility with NERSC, $DESI_ROOT points to the base of the latest public data release
-ENV DESI_ROOT=$DESI_BUCKET/$DESI_RELEASE
 
 # Some NERSC tutorials use this hard-coded path instead, which we symlink
 ENV DESI_NERSC=/global/cfs/cdirs/desi
