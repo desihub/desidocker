@@ -1,28 +1,69 @@
 # Accessing cloud- and locally-hosted DESI data
 
+_Xing Liu (UC Berkeley) and Anthony Kremin (Berkeley Lab), April 2024_
+
 DESI's early data release (EDR) will soon be made publicly available at an S3 cloud storage "bucket" on Amazon Web Services (AWS). 
 If you have sufficient storage space, you can download and host the entire data release locally. 
 However, due to the large memory footprint, we recommend most users to stream the data on-demand from the cloud.
 
-Here, we provide a Docker image which makes it seamless to work with both local and cloud-hosted DESI data.
-This Docker image is a self-contained code environment which comes pre-packaged with
+Here, we provide a Docker image which makes it easy to work with both local and cloud-hosted DESI data.
+Our Docker image is a self-contained code environment which comes pre-packaged with
 * A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries, and
-* (If you are not hosting locally), a filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more.
+* A filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more.
 
-You can either run this image locally or on a cloud compute instance.
+If your DESI data is hosted locally, 
+then please follow the instructions at [Running the Docker image locally](#running-the-docker-image-locally).
+
+Those streaming the data from the S3 bucket can also run the image locally, free of charge.
+However, we do recommend [Running the image on an AWS EC2 cloud compute instance](#running-the-docker-image-on-aws-ec2) instead.
 A cloud compute instance gives you on-demand access to additional storage and processing power.
 The cost is mainly charged for actively running the compute instances.
-We recommend using AWS EC2 cloud instances in particular, 
-as they have a very high-bandwidth network integration with AWS S3.
+The AWS EC2 instances, in particular, have a very high-bandwidth internal network integration with AWS S3.
 
-If you prefer to run locally, skip ahead to the section on [Running the Docker image](#running-the-docker-image).
-If you wish to run on the cloud, we provide instructions below for [Setting up an EC2 instance](#setting-up-an-ec2-instance-optional).
+## Running the Docker image locally
 
-## Setting up an EC2 instance (Optional)
+We recommend running the image locally if your DESI data is locally hosted.
+There can be considerable lag when streaming the cloud-hosted S3 bucket to a local image.
 
-(Up to date as of March 2024)
+### Step 1. Installing Docker
 
-### Creating an account
+We will be using Docker Engine, Docker's command-line tool.
+* Windows and macOS users should install [Docker Desktop](https://docs.docker.com/get-docker/), which comes bundled with Docker Engine.
+  * Windows users need to first install [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install)
+    and [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/install).
+    Then, in Windows Terminal, switch from PowerShell to a Linux shell (such as Ubuntu) that can run Docker Engine.
+* Linux users can either install the full [Docker Desktop](https://docs.docker.com/get-docker/), or [Docker Engine for Linux](https://docs.docker.com/engine/install/) directly.
+
+### Step 2. Running the image
+
+Open your computer's terminal.
+
+If your DESI data is locally hosted at `local_data_path`, then enter this command:
+```bash
+docker run -it -p 8888:8888 \
+  --volume "$(pwd):/home/synced" \
+  --volume "local_data_path:/home/desibucket:ro" \
+  ghcr.io/flyorboom/docker-aws-jupyter:main
+```
+* If you want to give the Docker container write access to your data release, then remove the `:ro` at the end of the flag.
+
+Otherwise, to access the DESI data hosted at AWS S3, then enter this command instead:
+```bash
+docker run -it -p 8888:8888 \
+  --volume "$(pwd):/home/synced" \
+  --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
+  ghcr.io/flyorboom/docker-aws-jupyter:main
+```
+ * Note that mounting the S3 bucket as a local filesystem [requires](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
+   granting the container sysadmin-level access to your computer's [FUSE](https://en.wikipedia.org/wiki/Filesystem_in_Userspace) interface.
+   This is not ideal for security, so if that is a major concern, then we do recommend running a cloud instance.
+
+Once the image starts running, locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
+
+
+## Running the Docker image on AWS EC2
+
+### Step 1. Creating an account
 
 While you do not need an AWS account to access the DESI data locally,
 you do have to make one in order to use the AWS EC2 service.
@@ -33,7 +74,7 @@ Once you’ve signed into your account,
 we recommend switching your region to **us-west-2 (Oregon)** as that is the region of our S3 bucket.
 Then, you can navigate to **Services » EC2** to set-up a cloud compute instance.
 
-### Creating a security group
+### Step 2. Creating a security group
 
 To access the Jupyter web server provided by our Docker image, 
 first we need to create a security group which allows HTTPS network access.
@@ -62,7 +103,7 @@ Fill in the following fields &mdash;
 
 Then click **Create security group**.
 
-### Launching an instance
+### Step 3. Launching an instance
 
 Navigate to **Services » EC2 » Instances**, then click **Launch instances**.
 Fill in the following fields &mdash;
@@ -79,7 +120,7 @@ Then click **Launch instance**.
 After the instance has loaded, follow the official instructions to 
 [Connect to your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-methods.html).
 
-### Installing Docker on the instance
+### Step 4. Installing Docker on the instance
 
 Amazon Linux uses the `yum` package management system. 
 Run the following lines to install Git and Docker.
@@ -103,42 +144,20 @@ sudo systemctl enable docker.service
 sudo systemctl start docker.service
 ```
 
-## Running the Docker image
+### Step 5. Running the image
 
-1. Get Docker Engine, Docker's command-line tool.
-* Windows and macOS users should install [Docker Desktop](https://docs.docker.com/get-docker/), which comes bundled with Docker Engine.
-  * Windows users need to first install [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install)
-    and [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/install).
-    Then, in Windows Terminal, switch from PowerShell to a Linux shell (such as Ubuntu) for running Docker Engine.
-* Linux users can either install the full [Docker Desktop](https://docs.docker.com/get-docker/), or [Docker Engine for Linux](https://docs.docker.com/engine/install/) directly.
-  * If you're running Amazon Linux on AWS EC2, refer to the installation instructions in the previous section instead.
-
-3. In the terminal, run this shell command to download and run the image.
+In the terminal, run this shell command to download and run the image.
 ```bash
 docker run -it -p 8888:8888 \
   --volume "$(pwd):/home/synced" \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
   ghcr.io/flyorboom/docker-aws-jupyter:main
 ```
-   * Note that mounting the S3 bucket as a local filesystem [requires](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
-     granting the container sysadmin-level access to your computer's [FUSE](https://en.wikipedia.org/wiki/Filesystem_in_Userspace) interface.
-     This is not ideal for security, so if that is a major concern, then we do recommend running a cloud instance.
 
-3. Locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output, and open the address in your browser.
-   (If you are running a cloud instance, replace `127.0.0.1` with the public IP address of your cloud server.)
+Once the image starts running, locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output.
+Replace `127.0.0.1` with the public IP address of your cloud server, then open the modified link in your browser.
 
-### Locally hosted DESI data
-
-To use a locally hosted DESI data release, instead run
-```bash
-docker run -it -p 8888:8888 \
-  --volume "$(pwd):/home/synced" \
-  --volume "path_to_local_data:/home/desibucket:ro" \
-  ghcr.io/flyorboom/docker-aws-jupyter:main
-```
-If you want to give the Docker container write access to your data release, then remove the `:ro` at the end of the flag.
-
-### Updating the Docker image
+## Updating the Docker image
 
 To update your Docker image, run
 ```bash
