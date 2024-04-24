@@ -37,7 +37,7 @@ We will be using Docker Engine, Docker's command-line tool.
 
 ### Step 2. Running the image
 
-Open your computer's terminal.
+Open your computer terminal, and navigate to the folder you use as your workspace for DESI.
 
 If your DESI data is locally hosted at `local_data_path`, then enter this command:
 ```bash
@@ -160,18 +160,19 @@ Replace `127.0.0.1` with the public IP address of your cloud server, then open t
 
 ## Customizations
 
-* The internal and external ports of the Jupyter server are respectively the first and second `8888` in `-p 8888:8888`.
-  Adjust these (as well as the port security policy if using EC2) should you have port collision issues.
 * To point `$DESI_ROOT` to another public data release, 
   replace `edr` with the other release's name in the `-e DESI_RELEASE=edr` flag.
+* The internal and external ports of the Jupyter server are respectively the first and second `8888` in `-p 8888:8888`.
+  Adjust these (as well as the port security policy if using EC2) should you have port collision issues.
 * To sync your changes in the container to a custom local folder, 
   replace `$(pwd)` (which points to the folder where you entered the `docker run` command) 
-  with the absolute path to the custom folder.
-* To build the image yourself, enter the command
-`` bash
+  with the absolute path to the custom folder in the `--volume "$(pwd):/home/synced"` flag.
+* To build the image from source (requires some patience and at least 1 GB of RAM memory), enter the command
+```bash
 docker build github.com/flyorboom/docker-aws-jupyter.git --tag desi-aws
 ```
-  Then, simply replace the tag `ghcr.io/flyorboom/docker-aws-jupyter:main` with `desi-aws` when running the image.
+  Then, replace the tag `ghcr.io/flyorboom/docker-aws-jupyter:main` with `desi-aws` when running the image.
+  
 
 ## Updating the Docker image
 
