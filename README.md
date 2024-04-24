@@ -22,8 +22,9 @@ The AWS EC2 instances, in particular, have a very high-bandwidth internal networ
 
 ## Running the Docker image locally
 
-We recommend running the image locally if your DESI data is locally hosted.
-There can be considerable lag when streaming the cloud-hosted S3 bucket to a local image.
+We only recommend running the image locally if your DESI data is locally hosted,
+or to try out the cloud streaming without paying for an EC2 cloud instance.
+Unfortunately, there can be considerable lag when streaming the S3 bucket to a local image.
 
 ### Step 1. Installing Docker
 
