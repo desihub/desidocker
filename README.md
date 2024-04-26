@@ -144,7 +144,7 @@ sudo systemctl enable docker.service
 sudo systemctl start docker.service
 ```
 If you are using a different Linux distribution on your instance, 
-refer to the offician instructions to install [Docker Engine for Linux](https://docs.docker.com/engine/install/) instead.
+refer to the official instructions to install [Docker Engine for Linux](https://docs.docker.com/engine/install/) instead.
 
 ### Step 5. Running the image
 
