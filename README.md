@@ -110,7 +110,7 @@ Navigate to **Services » EC2 » Instances**, then click **Launch instances**.
 Fill in the following fields &mdash;
 
 1. **Name and tags:** Pick your own.
-2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Amazon Linux**, although Ubuntu and other Unix systems should also work.
+2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Amazon Linux**, although Ubuntu and other Linux distributions should also work.
 3. **Instance type:** We recommend starting with **t2.micro**. You can upgrade to other instances if you need more processing power and memory,
    or downgrade to t2.nano for a lower cost.
 5. **Key pair:** Create your own and save the private key file.
@@ -123,8 +123,7 @@ After the instance has loaded, follow the official instructions to
 
 ### Step 4. Installing Docker on the instance
 
-Amazon Linux uses the `yum` package management system. 
-Run the following lines to install Git and Docker.
+Run the following lines to install Git and Docker on Amazon Linux, which uses the `yum` package management system.
 ```bash
 # Refresh package repository
 sudo yum update
@@ -144,6 +143,8 @@ newgrp docker
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
 ```
+If you are using a different Linux distribution on your instance, 
+refer to the offician instructions to install [Docker Engine for Linux](https://docs.docker.com/engine/install/) instead.
 
 ### Step 5. Running the image
 
