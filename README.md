@@ -2,7 +2,7 @@
 
 _Xing Liu (UC Berkeley) and Anthony Kremin (Berkeley Lab), April 2024_
 
-DESI's early data release (EDR) will soon be made publicly available at an S3 cloud storage "bucket" on Amazon Web Services (AWS). 
+DESI's early data release (EDR) is available to the public at the `s3://desidata` S3 cloud storage "bucket" on Amazon Web Services (AWS). 
 If you have sufficient storage space, you can download and host the entire data release locally. 
 However, due to the large memory footprint, we recommend most users to stream the data on-demand from the cloud.
 

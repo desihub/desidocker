@@ -42,7 +42,7 @@ else
         --region us-west-2 \
         --read-only \
         --no-sign-request \
-        desiproto $DESI_BUCKET
+        desidata $DESI_BUCKET
 fi
 
 # Add DESI Python libraries to PATH and PYTHONPATH
