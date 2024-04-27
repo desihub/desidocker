@@ -28,23 +28,23 @@ if [ -z "$DESI_RELEASE" ]; then
 fi
 DESI_RELEASE=${DESI_RELEASE,,}
 echo "+ Set \$DESI_ROOT to the $DESI_RELEASE release."
-export DESI_ROOT=$DESI_BUCKET/$DESI_RELEASE
-export DESI_RAW=$DESI_BUCKET/raw_spectro_data
-export DESI_TARGET=$DESI_BUCKET/target
+export DESI_ROOT=$DESI_DATA/$DESI_RELEASE
+export DESI_RAW=$DESI_DATA/raw_spectro_data
+export DESI_TARGET=$DESI_DATA/target
 
-# If $DESI_BUCKET is not already occupied (by a local mount), 
-# then mount AWS S3 bucket to $DESI_BUCKET, with cache at $DESI_BUCKET_CACHE.
+# If $DESI_DATA is not already occupied (by a local mount), 
+# then mount AWS S3 bucket to $DESI_DATA, with cache at $DESI_DATA_CACHE.
 
-if [ "$(ls -A $DESI_BUCKET)" ]; then
+if [ "$(ls -A $DESI_DATA)" ]; then
     echo "+ Mounted local DESI data directory."
 else
     echo "+ Mounting remote DESI data directory..."
     mount-s3 \
-        --cache $DESI_BUCKET_CACHE \
+        --cache $DESI_DATA_CACHE \
         --region us-west-2 \
         --read-only \
         --no-sign-request \
-        desidata $DESI_BUCKET
+        desidata $DESI_DATA
 fi
 
 # Add DESI Python libraries to PATH and PYTHONPATH
@@ -66,4 +66,4 @@ echo ""
 
 # Unmount when done
 
-umount $DESI_BUCKET
+umount $DESI_DATA

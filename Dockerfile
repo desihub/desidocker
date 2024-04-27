@@ -36,13 +36,13 @@ RUN apt-get update --yes \
 # ================
 ENV HOME=/home
 
-# Mountpoint mounts the S3 bucket to $DESI_BUCKET, with cache at $DESI_BUCKET_CACHE
-ENV DESI_BUCKET=$HOME/desibucket
-ENV DESI_BUCKET_CACHE=$HOME/.desibucket_cache
+# Mountpoint mounts the S3 bucket to $DESI_DATA, with cache at $DESI_DATA_CACHE
+ENV DESI_DATA=$HOME/desidata
+ENV DESI_DATA_CACHE=$HOME/.desidata_cache
 
 # Some NERSC tutorials use this hard-coded path instead, which we symlink
 ENV DESI_NERSC=/global/cfs/cdirs/desi
-ENV DESI_BUCKET_NERSC=$DESI_NERSC/public
+ENV DESI_DATA_NERSC=$DESI_NERSC/public
 
 # NERSC also provides a "scratch" directory for scratch work
 ENV SCRATCH=$HOME/scratch
@@ -54,8 +54,8 @@ ENV SYNCED=$HOME/synced
 ENV DESI_HUB=$HOME/desihub
 
 # Create directories
-RUN mkdir -p $HOME $DESI_HUB $DESI_BUCKET $DESI_BUCKET_CACHE $DESI_NERSC $SCRATCH $SYNCED \
-    && ln -s $DESI_BUCKET $DESI_BUCKET_NERSC
+RUN mkdir -p $HOME $DESI_HUB $DESI_DATA $DESI_DATA_CACHE $DESI_NERSC $SCRATCH $SYNCED \
+    && ln -s $DESI_DATA $DESI_DATA_NERSC
 
 # Add startup file to home directory
 COPY ./welcome.ipynb $HOME

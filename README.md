@@ -2,7 +2,8 @@
 
 _Xing Liu (UC Berkeley) and Anthony Kremin (Berkeley Lab), April 2024_
 
-DESI's early data release (EDR) is available to the public at the `s3://desidata` S3 cloud storage "bucket" on Amazon Web Services (AWS). 
+DESI's early data release (EDR) is available to the public, free of charge, 
+at the **desidata** S3 cloud storage "bucket" on Amazon Web Services (AWS). 
 If you have sufficient storage space, you can download and host the entire data release locally. 
 However, due to the large memory footprint, we recommend most users to stream the data on-demand from the cloud.
 
@@ -43,7 +44,7 @@ If your DESI data is locally hosted at `local_data_path`, then enter this comman
 ```bash
 docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
   --volume "$(pwd):/home/synced" \
-  --volume "local_data_path:/home/desibucket:ro" \
+  --volume "local_data_path:/home/desidata:ro" \
   ghcr.io/flyorboom/docker-aws-jupyter:main
 ```
 * If you want to give the Docker container write access to your data release, then remove the `:ro` at the end of the flag.
