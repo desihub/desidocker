@@ -29,6 +29,8 @@ fi
 DESI_RELEASE=${DESI_RELEASE,,}
 echo "+ Set \$DESI_ROOT to the $DESI_RELEASE release."
 export DESI_ROOT=$DESI_BUCKET/$DESI_RELEASE
+export DESI_RAW=$DESI_BUCKET/raw_spectro_data
+export DESI_TARGET=$DESI_BUCKET/target
 
 # If $DESI_BUCKET is not already occupied (by a local mount), 
 # then mount AWS S3 bucket to $DESI_BUCKET, with cache at $DESI_BUCKET_CACHE.
