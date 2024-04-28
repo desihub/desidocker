@@ -179,7 +179,7 @@ Replace `127.0.0.1` with the public IP address of your cloud server, then open t
 * To sync your changes in the container to a custom local folder, 
   replace `$(pwd)` (which points to the folder where you entered the `docker run` command) 
   with the absolute path to the custom folder in the `--volume "$(pwd):/home/synced"` flag.
-* To build the image from source (requires some patience and at least 1 GB of RAM memory), enter the command
+* To build the image from source (requires some patience), enter the command
 ```bash
 docker build github.com/flyorboom/desi-docker.git --tag desi-docker
 ```
