@@ -126,22 +126,20 @@ After the instance has loaded, follow the official instructions to
 
 Run the following lines to install Git and Docker on Amazon Linux, which uses the `yum` package management system.
 ```bash
-# Refresh package repository
+# Install Git and Docker
 sudo yum update
-
-# Install Git
 sudo yum install git
-
-# Install Docker
 sudo yum install docker
-
+```
+```bash
 # Give Docker extra permissions
 sudo usermod -a -G docker ec2-user
 id ec2-user
 newgrp docker
-
-# Start Docker's daemon
 sudo systemctl enable docker.service
+```
+```bash
+# Start Docker's daemon
 sudo systemctl start docker.service
 ```
 If you are using a different Linux distribution on your instance, 
