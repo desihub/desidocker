@@ -112,8 +112,8 @@ Fill in the following fields &mdash;
 
 1. **Name and tags:** Pick your own.
 2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Amazon Linux**, although Ubuntu and other Linux distributions should also work.
-3. **Instance type:** We recommend starting with **t2.micro**. You can upgrade to other instances if you need more processing power and memory,
-   or downgrade to t2.nano for a lower cost.
+3. **Instance type:** We recommend starting with **t2.large**, due to the memory-intensive nature of processing DESI data.
+   You should upgrade to other instances if you need more processing power and memory.
 5. **Key pair:** Create your own and save the private key file.
 6. **Network settings:** Select the **jupyter** security group we created earlier.
 7. **Configure storage:** For free-tier accounts, we recommend the maximum available **30 GiB**. There can be a lot of locally cached DESI data!
