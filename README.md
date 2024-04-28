@@ -33,7 +33,7 @@ If you are interested, then please follow the instructions for
     and [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/install).
     Then, in Windows Terminal, switch from PowerShell to a Linux shell (such as Ubuntu).
 * At least 16 GB of memory (24 GB recommended)
-* At least 32 GB of free storage if streaming data from S3; A lot more if locally hosting data
+* At least 32 GB of free storage if streaming data from S3 (64 GB recommended); A lot more if locally hosting data
 
 ### Step 1. Installing Docker
 
