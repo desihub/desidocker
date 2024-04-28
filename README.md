@@ -4,7 +4,7 @@ _Xing Liu (UC Berkeley) and Anthony Kremin (Berkeley Lab), April 2024_
 
 DESI's early data release (EDR) is available to the public, free of charge, 
 at the **desidata** S3 cloud storage "bucket" on Amazon Web Services (AWS). 
-If you have sufficient storage space, you can download and host the entire data release locally. 
+If you have sufficient storage space, you can download and host the entire data release (120 TB) locally. 
 However, due to the large memory footprint, we recommend most users to stream the data on-demand from the cloud.
 
 Here, we provide a Docker image which makes it easy to work with both local and cloud-hosted DESI data.
@@ -12,28 +12,34 @@ Our Docker image is a self-contained code environment which comes pre-packaged w
 * A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries, and
 * A filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more.
 
-If your DESI data is hosted locally, 
+If your DESI data is hosted locally, or if you want to stream the S3 DESI data to process locally,
 then please follow the instructions at [Running the Docker image locally](#running-the-docker-image-locally).
+We emphasize that local data processing is only practical for those with high-performance computers.
+Due to the high resolution of DESI data, you should only run the image locally if your computer has at least 16 GB of memory (24 GB recommended).
 
-Those streaming the data from the S3 bucket can also run the image locally, free of charge.
-However, we do recommend [Running the image on an AWS EC2 cloud compute instance](#running-the-docker-image-on-aws-ec2) instead.
+Otherwise, we recommend running the Docker image at your institution's computing center,
+or a commercial cloud computing center such as AWS EC2 cloud compute.
 A cloud compute instance gives you on-demand access to additional storage and processing power.
 The cost is mainly charged for actively running the compute instances.
-The AWS EC2 instances, in particular, have a very high-bandwidth internal network integration with AWS S3.
+AWS EC2, in particular, have a very high-bandwidth internal network integration with AWS S3.
+If you are interested, 
+then please follow the instructions for [Running the Docker image on an AWS EC2 cloud compute instance](#running-the-docker-image-on-aws-ec2).
 
 ## Running the Docker image locally
 
-We only recommend running the image locally if your DESI data is locally hosted,
-or to try out the cloud streaming without paying for an EC2 cloud instance.
-Unfortunately, there can be considerable lag when streaming the S3 bucket to a local image.
+### System requirements
+
+* A modern version of Windows, macOS, or Linux
+  * Windows users need to first install [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install)
+    and [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/install).
+    Then, in Windows Terminal, switch from PowerShell to a Linux shell (such as Ubuntu).
+* At least 16 GB of memory (24 GB recommended)
+* At least 32 GB of free storage if streaming data from S3; A lot more if locally hosting data
 
 ### Step 1. Installing Docker
 
 We will be using Docker Engine, Docker's command-line tool.
 * Windows and macOS users should install [Docker Desktop](https://docs.docker.com/get-docker/), which comes bundled with Docker Engine.
-  * Windows users need to first install [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install)
-    and [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/install).
-    Then, in Windows Terminal, switch from PowerShell to a Linux shell (such as Ubuntu) that can run Docker Engine.
 * Linux users can either install the full [Docker Desktop](https://docs.docker.com/get-docker/), or [Docker Engine for Linux](https://docs.docker.com/engine/install/) directly.
 
 ### Step 2. Running the image
