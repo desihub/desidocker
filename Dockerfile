@@ -43,6 +43,7 @@ ENV DESI_DATA_CACHE=$HOME/.desidata_cache
 # Some NERSC tutorials use this hard-coded path instead, which we symlink
 ENV DESI_NERSC=/global/cfs/cdirs/desi
 ENV DESI_DATA_NERSC=$DESI_NERSC/public
+ENV DESI_SPECTRO_NERSC=$DESI_NERSC/spectro
 
 # NERSC also provides a "scratch" directory for scratch work
 ENV SCRATCH=$HOME/scratch
@@ -109,6 +110,7 @@ ENTRYPOINT /usr/local/bin/run.sh
 # =========================
 
 RUN fix-permissions $HOME
+RUN fix-permissions $DESI_NERSC
 USER $NB_UID
 WORKDIR $HOME
 
