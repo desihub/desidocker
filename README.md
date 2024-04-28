@@ -3,7 +3,7 @@
 _Xing Liu (UC Berkeley) and Anthony Kremin (Berkeley Lab), April 2024_
 
 DESI's early data release (EDR) is available to the public, free of charge, 
-at the **desidata** S3 cloud storage "bucket" on Amazon Web Services (AWS). 
+at the **desidata** S3 cloud storage "bucket" on Amazon Web Services (AWS).
 If you have sufficient storage space, you can download and host the entire data release (120 TB) locally. 
 However, due to the large memory footprint, we recommend most users to stream the data on-demand from the cloud.
 
@@ -20,10 +20,9 @@ Due to the high resolution of DESI data, you should only run the image locally i
 Otherwise, we recommend running the Docker image at your institution's computing center,
 or a commercial cloud computing center such as AWS EC2 cloud compute.
 A cloud compute instance gives you on-demand access to additional storage and processing power.
-The cost is mainly charged for actively running the compute instances.
 AWS EC2, in particular, have a very high-bandwidth internal network integration with AWS S3.
-If you are interested, 
-then please follow the instructions for [Running the Docker image on an AWS EC2 cloud compute instance](#running-the-docker-image-on-aws-ec2).
+If you are interested, then please follow the instructions for 
+[Running the Docker image on an AWS EC2 cloud compute instance](#running-the-docker-image-on-aws-ec2).
 
 ## Running the Docker image locally
 
