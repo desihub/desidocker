@@ -50,7 +50,7 @@ If your DESI data is locally hosted at `local_data_path`, then enter this comman
 docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
   --volume "$(pwd):/home/synced" \
   --volume "local_data_path:/home/desidata:ro" \
-  ghcr.io/flyorboom/docker-aws-jupyter:main
+  ghcr.io/flyorboom/desi-docker:main
 ```
 * If you want to give the Docker container write access to your data release, then remove the `:ro` at the end of the flag.
 
@@ -59,7 +59,7 @@ Otherwise, to access the DESI data hosted at AWS S3, then enter this command ins
 docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
   --volume "$(pwd):/home/synced" \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
-  ghcr.io/flyorboom/docker-aws-jupyter:main
+  ghcr.io/flyorboom/desi-docker:main
 ```
  * Note that mounting the S3 bucket as a local filesystem [requires](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
    granting the container sysadmin-level access to your computer's [FUSE](https://en.wikipedia.org/wiki/Filesystem_in_Userspace) interface.
@@ -163,9 +163,9 @@ Finally, run this shell command to download and run the image.
 docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
   --volume "$(pwd):/home/synced" \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
-  ghcr.io/flyorboom/docker-aws-jupyter:main
+  ghcr.io/flyorboom/desi-docker:main
 ```
-* If you encounter an `unknown server OS` error, you may need to restart Docker's daemon.
+* If you encounter an `unknown server OS` error, you may need to restart Docker.
 
 Once the image starts running, locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output.
 Replace `127.0.0.1` with the public IP address of your cloud server, then open the modified link in your browser.
@@ -181,14 +181,14 @@ Replace `127.0.0.1` with the public IP address of your cloud server, then open t
   with the absolute path to the custom folder in the `--volume "$(pwd):/home/synced"` flag.
 * To build the image from source (requires some patience and at least 1 GB of RAM memory), enter the command
 ```bash
-docker build github.com/flyorboom/docker-aws-jupyter.git --tag desi-aws
+docker build github.com/flyorboom/desi-docker.git --tag desi-docker
 ```
-  Then, replace the tag `ghcr.io/flyorboom/docker-aws-jupyter:main` with `desi-aws` when running the image.
+  Then, replace the tag `ghcr.io/flyorboom/desi-docker:main` with `desi-docker` when running the image.
   
 
 ## Updating the Docker image
 
 To update your Docker image, run
 ```bash
-docker pull ghcr.io/flyorboom/docker-aws-jupyter:main
+docker pull ghcr.io/flyorboom/desi-docker:main
 ```
