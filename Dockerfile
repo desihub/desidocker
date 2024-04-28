@@ -43,7 +43,6 @@ ENV DESI_DATA_CACHE=$HOME/.desidata_cache
 # Some NERSC tutorials use this hard-coded path instead, which we symlink
 ENV DESI_NERSC=/global/cfs/cdirs/desi
 ENV DESI_DATA_NERSC=$DESI_NERSC/public
-ENV DESI_SPECTRO_NERSC=$DESI_NERSC/spectro
 
 # NERSC also provides a "scratch" directory for scratch work
 ENV SCRATCH=$HOME/scratch
@@ -78,7 +77,7 @@ RUN wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/$(uname -i)/moun
 # https://desi.lbl.gov/trac/wiki/Pipeline/GettingStarted/Laptop
 # Installing big libraries one-by-one to avoid memory issues
 
-ENV CONDA_PACKAGES="numpy scipy astropy pyyaml requests ipython h5py scikit-learn matplotlib-base numba sqlalchemy pytz sphinx seaborn fitsio"
+ENV CONDA_PACKAGES="numpy scipy astropy pyyaml requests ipython jupyter-resource-usage h5py scikit-learn matplotlib-base numba sqlalchemy pytz sphinx seaborn fitsio"
 RUN for package in $CONDA_PACKAGES; do \
     mamba install -c conda-forge --yes $package; done \
     && mamba clean --all -f --yes \
