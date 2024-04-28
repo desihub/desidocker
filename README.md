@@ -138,22 +138,29 @@ id ec2-user
 newgrp docker
 sudo systemctl enable docker.service
 ```
-```bash
-# Start Docker's daemon
-sudo systemctl start docker.service
-```
 If you are using a different Linux distribution on your instance, 
 refer to the official instructions to install [Docker Engine for Linux](https://docs.docker.com/engine/install/) instead.
 
 ### Step 5. Running the image
 
-In the terminal, run this shell command to download and run the image.
+Run this command to start Docker,
+```bash
+sudo systemctl start docker.service
+```
+then, run this command to find your public IP address. Save this address somewhere.
+```bash
+curl http://checkip.amazonaws.com
+```
+* These commands need to be re-run every time you start your instance.
+
+Finally, run this shell command to download and run the image.
 ```bash
 docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
   --volume "$(pwd):/home/synced" \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
   ghcr.io/flyorboom/docker-aws-jupyter:main
 ```
+* If you encounter an `unknown server OS` error, you may need to restart Docker's daemon.
 
 Once the image starts running, locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output.
 Replace `127.0.0.1` with the public IP address of your cloud server, then open the modified link in your browser.
