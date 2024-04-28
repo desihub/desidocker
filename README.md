@@ -112,7 +112,7 @@ Fill in the following fields &mdash;
 
 1. **Name and tags:** Pick your own.
 2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Amazon Linux**, although Ubuntu and other Linux distributions should also work.
-3. **Instance type:** We recommend starting with **t2.large**, due to the memory-intensive nature of processing DESI data.
+3. **Instance type:** We recommend starting with **t2.xlarge** or **t2.2xlarge**, due to the memory-intensive nature of processing DESI data.
    You should upgrade to other instances if you need more processing power and memory.
 5. **Key pair:** Create your own and save the private key file.
 6. **Network settings:** Select the **jupyter** security group we created earlier.
@@ -126,22 +126,20 @@ After the instance has loaded, follow the official instructions to
 
 Run the following lines to install Git and Docker on Amazon Linux, which uses the `yum` package management system.
 ```bash
-# Refresh package repository
+# Install Git and Docker
 sudo yum update
-
-# Install Git
 sudo yum install git
-
-# Install Docker
 sudo yum install docker
-
+```
+```bash
 # Give Docker extra permissions
 sudo usermod -a -G docker ec2-user
 id ec2-user
 newgrp docker
-
-# Start Docker's daemon
 sudo systemctl enable docker.service
+```
+```bash
+# Start Docker's daemon
 sudo systemctl start docker.service
 ```
 If you are using a different Linux distribution on your instance, 
