@@ -18,7 +18,7 @@ We emphasize that local data processing is only practical for those with high-pe
 Due to the high resolution of DESI data, you should only run the image locally if your computer has at least 16 GB of memory (24 GB recommended).
 
 Otherwise, we recommend running the Docker image at your institution's computing center,
-or a commercial cloud computing center such as AWS EC2 cloud compute.
+or a commercial cloud computing center such as AWS Elastic Cloud Compute (EC2).
 A cloud compute instance gives you on-demand access to additional storage and processing power.
 AWS EC2, in particular, have a very high-bandwidth internal network integration with AWS S3.
 If you are interested, then please follow the instructions for 
