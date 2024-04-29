@@ -175,7 +175,7 @@ Replace `127.0.0.1` with the public IP address of your cloud server, then open t
 * To point `$DESI_ROOT` to another public data release, 
   replace `edr` with the other release's name in the `-e DESI_RELEASE=edr` flag.
 * The internal and external ports of the Jupyter server are respectively the first and second `8888` in `-p 8888:8888`.
-  Adjust these (as well as the port security policy if using EC2) should you have port collision issues.
+  Adjust the external port (as well as the port security policy if using EC2) should you encounter port collision issues.
 * To sync your changes in the container to a custom local folder, 
   replace `$(pwd)` (which points to the folder where you entered the `docker run` command) 
   with the absolute path to the custom folder in the `--volume "$(pwd):/home/synced"` flag.
