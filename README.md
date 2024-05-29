@@ -12,6 +12,9 @@ Our Docker image is a self-contained code environment which comes pre-packaged w
 * A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries, and
 * A filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more.
 
+![Available options](docs/options.gif) \
+*You are free to choose a combination of local/cloud-hosted databases and local/cloud-hosted programming environments to suit your workflow.*
+
 If your DESI data is hosted locally, or if you want to stream the S3 DESI data to process locally,
 then please follow the instructions at [Running the Docker image locally](#running-the-docker-image-locally).
 We emphasize that local data processing is only practical for those with high-performance computers.
