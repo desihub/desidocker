@@ -32,6 +32,9 @@ export DESI_ROOT=$DESI_DATA/$DESI_RELEASE
 export DESI_RAW=$DESI_DATA/raw_spectro_data
 export DESI_TARGET=$DESI_DATA/target
 
+# used by the desispec library
+export DESI_SPECTRO_REDUX=$DESI_ROOT/spectro/redux
+
 ln -s $DESI_ROOT/spectro $DESI_NERSC/spectro
 ln -s $DESI_ROOT/survey $DESI_NERSC/survey
 ln -s $DESI_TARGET $DESI_NERSC/target
