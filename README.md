@@ -1,6 +1,6 @@
 # Integrated Docker environment for accessing cloud- and locally-hosted DESI data
 
-_Xing Liu (UC Berkeley) and Anthony Kremin (Berkeley Lab), April 2024_
+_Xing Liu (UC Berkeley) and Anthony Kremin (Berkeley Lab), June 2024_
 
 DESI's early data release (EDR) is available to the public, free of charge, 
 at the **desidata** S3 cloud storage "bucket" on Amazon Web Services (AWS).
@@ -120,7 +120,7 @@ Fill in the following fields &mdash;
 
 1. **Name and tags:** Pick your own.
 2. **Application and OS Images (Amazon Machine Image):** We recommend selecting **Amazon Linux**, although Ubuntu and other Linux distributions should also work.
-3. **Instance type:** We recommend starting with **t2.xlarge** or **t2.2xlarge**, due to the memory-intensive nature of processing DESI data.
+3. **Instance type:** We recommend starting with **t3.xlarge** or **t3.2xlarge**, due to the memory-intensive nature of processing DESI data.
    You should upgrade to other instances if you need more processing power and memory.
 5. **Key pair:** Create your own and save the private key file.
 6. **Network settings:** Select the **jupyter** security group we created earlier.
