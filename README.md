@@ -1,16 +1,16 @@
-# Accessing cloud- and locally-hosted DESI data
+# Integrated Docker environment for accessing cloud- and locally-hosted DESI data
 
 _Xing Liu (UC Berkeley) and Anthony Kremin (Berkeley Lab), April 2024_
 
 DESI's early data release (EDR) is available to the public, free of charge, 
 at the **desidata** S3 cloud storage "bucket" on Amazon Web Services (AWS).
-If you have sufficient storage space, you can download and host the entire data release (120 TB) locally. 
-However, due to the large memory footprint, we recommend most users to stream the data on-demand from the cloud.
 
 Here, we provide a Docker image which makes it easy to work with both local and cloud-hosted DESI data.
 Our Docker image is a self-contained code environment which comes pre-packaged with
 * A Jupyter server installed with general Python libraries for scientific programming, as well as DESI-specific libraries, and
 * A filesystem mounted to the DESI S3 bucket, which automatically downloads the data you query and nothing more.
+
+Most DESI code developed for NERSC can run on this Docker image with little to no modifications.
 
 ![Available options](docs/options.gif) \
 *You are free to choose a combination of local/cloud-hosted databases and local/cloud-hosted programming environments to suit your workflow.*
