@@ -4,7 +4,7 @@ Our Docker container is bulit off of the Jupyter Project's [Docker images for ru
 Starting from their image, we install
 * AWS Mountpoint to mount the AWS S3 filesystem
 * Additional DESI Python packages document at
-  [Installing DESI code on your laptop or other local machine ¶](https://desi.lbl.gov/trac/wiki/Pipeline/GettingStarted/Laptop)
+  [Installing DESI code on your laptop or other local machine](https://desi.lbl.gov/trac/wiki/Pipeline/GettingStarted/Laptop)
   (DESI collaboration internal link)
 
 We have a weekly [GitHub Actions](https://docs.github.com/en/actions) job to build the Docker image and upload it to [ghcr.io/desihub/desidocker](https://ghcr.io/desihub/desidocker),
