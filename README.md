@@ -195,3 +195,7 @@ To update your Docker image, run
 ```bash
 docker pull ghcr.io/desihub/desidocker:main
 ```
+
+## Maintaining this project
+
+See [maintainance.md](maintainance.md).
