@@ -27,14 +27,17 @@ if [ -z "$DESI_RELEASE" ]; then
     export DESI_RELEASE=edr
 fi
 DESI_RELEASE=${DESI_RELEASE,,}
+
+# Set environment variables as per
+# https://desidatamodel.readthedocs.io/en/latest/
 echo "+ Set \$DESI_ROOT to the $DESI_RELEASE release."
 export DESI_ROOT=$DESI_DATA/$DESI_RELEASE
-export DESI_RAW=$DESI_DATA/raw_spectro_data
+export DESI_SPECTRO_DATA=$DESI_DATA/raw_spectro_data
+export DESI_SPECTRO_REDUX=$DESI_ROOT/spectro/redux
+export DESI_SPECTRO_CALIB=$DESI_ROOT/spectro/desi_spectro_calib
 export DESI_TARGET=$DESI_DATA/target
 
-# used by the desispec library
-export DESI_SPECTRO_REDUX=$DESI_ROOT/spectro/redux
-
+# Symlink to NERSC-like directories
 ln -s $DESI_ROOT/spectro $DESI_NERSC/spectro
 ln -s $DESI_ROOT/survey $DESI_NERSC/survey
 ln -s $DESI_TARGET $DESI_NERSC/target
