@@ -160,7 +160,7 @@ sudo systemctl start docker.service
 Finally, run this shell command to download and run the image.
 ```bash
 docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
-  -e PUBLIC_IP=$(curl -s http://checkip.amazonaws.com) \
+  -e PUBLIC_IP=$(curl -s https://checkip.amazonaws.com) \
   --volume "$(pwd):/home/synced" \
   --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
   ghcr.io/desihub/desidocker:main
