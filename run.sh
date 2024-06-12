@@ -72,7 +72,13 @@ export PYTHONPATH=$DESI_HUB/specsim:$PYTHONPATH
 
 echo "+ Starting Jupyter..."
 echo ""
-/usr/local/bin/start.sh start-notebook.py
+
+if [ -z "$PUBLIC_IP" ]; then
+	exec /usr/local/bin/start-notebook.py 
+else
+	exec /usr/local/bin/start-notebook.py 2>&1 | (trap '' INT; exec sed -e "s/\/\/\S*:/\/\/$PUBLIC_IP:/")
+fi
+
 
 # Unmount when done
 
