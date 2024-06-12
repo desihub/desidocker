@@ -155,11 +155,7 @@ Run this command to start Docker,
 ```bash
 sudo systemctl start docker.service
 ```
-then, run this command to find your public IP address. Save this address somewhere.
-```bash
-curl http://checkip.amazonaws.com
-```
-* These commands need to be re-run every time you start your instance.
+* This needs to be re-run every time you start your instance.
 
 Finally, run this shell command to download and run the image.
 ```bash
@@ -171,8 +167,7 @@ docker run -it -p 8888:8888 -e DESI_RELEASE=edr \
 ```
 * If you encounter an `unknown server OS` error, you may need to restart Docker.
 
-Once the image starts running, locate the line beginning with `http://127.0.0.1:8888/lab?token=...` in the output.
-Replace `127.0.0.1` with the public IP address of your cloud server, then open the modified link in your browser.
+Once the image starts running, locate the line beginning with `http://...:8888/lab?token=...` in the output, and open the address in your browser.
 
 ## Customizations
 
