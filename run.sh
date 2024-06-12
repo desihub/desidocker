@@ -40,6 +40,7 @@ export DESI_TARGET=$DESI_DATA/target
 # Symlink to NERSC-like directories
 ln -s $DESI_ROOT/spectro $DESI_NERSC/spectro
 ln -s $DESI_ROOT/survey $DESI_NERSC/survey
+ln -s $DESI_ROOT/vac $DESI_NERSC/vac
 ln -s $DESI_TARGET $DESI_NERSC/target
 
 # If $DESI_DATA is not already occupied (by a local mount), 
